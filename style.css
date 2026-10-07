@@ -97,3 +97,29 @@ dialog{background:var(--bg);border:0;box-shadow:0 20px 100px #17151c40}.icon-but
 .contact:after{content:'SHANAYA';display:block;font:700 clamp(64px,15vw,235px)/.78 'Space Grotesk',sans-serif;letter-spacing:-.08em;color:transparent;-webkit-text-stroke:1px #17151c80;margin:54px 0 0;text-align:center;pointer-events:none}
 .filters button{border-color:#17151c;border-radius:4px 14px 4px 14px}.filters button[aria-pressed=true]{box-shadow:3px 3px 0 #17151c}
 @media(max-width:700px){.hero h1 em{padding-bottom:.08em}.motion-caption{font-size:8px;padding:8px 11px;bottom:14px}.project-image{border-radius:4px 28px 4px 28px;box-shadow:4px 4px 0 #17151c}.project:nth-child(even) .project-image{border-radius:28px 4px 28px 4px}.work-heading h2 em{display:inline;text-shadow:1px 1px 0 #17151c;text-decoration-thickness:2px;text-underline-offset:6px}.about:after{font-size:300px;right:-60px;bottom:-70px}.contact:after{font-size:16vw;letter-spacing:-.075em;margin-top:36px}.back-top{border-radius:14px;box-shadow:3px 3px 0 #17151c}}
+
+/* Soft studio paper, expressive type and a pocket-sized toolkit. */
+:root{--bg:#fff5e9;--accent:#6439cf;--lime:#e1ef98;--muted:#655469}
+body{background:#fff5e9}
+.hero h1{font-family:Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:-.065em;line-height:.99}
+.hero h1 em{font-size:1.07em;border-radius:0;transform:rotate(-3deg)}
+.hero:before{height:56px;background:#dfcaff;background-image:radial-gradient(#6439cf 1.4px,transparent 1.4px);background-size:14px 14px}
+.logo{font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:34px;letter-spacing:-.06em}
+.work{background-color:#fff5e9;background-image:radial-gradient(#6439cf20 1px,transparent 1px),radial-gradient(ellipse at 5% 10%,#ffd0b8 0,transparent 50%),radial-gradient(ellipse at 90% 50%,#d9c9ff 0,transparent 50%),radial-gradient(ellipse at 20% 100%,#d9efc6 0,transparent 50%);background-size:20px 20px,auto,auto,auto}
+.work-heading h2,.about h2,.contact h2{font-family:Georgia,serif;font-weight:400;letter-spacing:-.065em}
+.work-heading h2 em{color:#b33670;text-shadow:none;text-decoration:none}
+.project-grid{gap:54px 38px}.project-image{border:1px solid #51395845;box-shadow:0 10px 25px #51395814;border-radius:28px;padding:24px;background:#dac8f9}
+.project:nth-child(2) .project-image{background:#dcecc4}.project:nth-child(3) .project-image{background:#ffcbbb}.project:nth-child(4) .project-image{background:#cedcfc}
+.project:nth-child(even) .project-image{border-radius:28px}.project:hover .project-image{transform:translateY(-5px) rotate(-1deg);box-shadow:0 18px 32px #51395825}
+.project h3{font-family:Georgia,serif;font-weight:400;font-size:clamp(26px,2.7vw,40px);letter-spacing:-.04em;line-height:1.12}
+.project-caption{align-items:start}.project .project-context{font-family:'Manrope',sans-serif;text-transform:none;letter-spacing:0;font-size:14px;line-height:1.65;color:#594861;max-width:420px;margin-top:12px}
+.project-arrow{background:#fff5e9;border-color:#51395845;box-shadow:none}.filters button{border-radius:50px;border-color:#51395860}.filters button[aria-pressed=true]{box-shadow:none}
+.about{background-color:#e7d9fa;background-image:radial-gradient(#6439cf22 1px,transparent 1px),radial-gradient(ellipse at 100% 100%,#fac6d3,transparent 60%);background-size:20px 20px,auto;color:#35233e}
+.about h2{color:#35233e}.about h2 em{color:#8c367b;text-decoration:none}.about .section-label{color:#6439cf}.bio>p+p,dd{color:#594861}dt{color:#6439cf}.bio dl>div{border-color:#51395835}.about:after{color:#6439cf10}
+.studio-pocket{margin-top:38px;max-width:360px}.studio-pocket summary{list-style:none;cursor:pointer;position:relative;display:block;background:#f3d38b;padding:35px 24px 22px;border-radius:6px 20px 20px 20px;box-shadow:0 8px 18px #51395820;transform:rotate(-3deg);transition:transform .25s}
+.studio-pocket summary::-webkit-details-marker{display:none}.studio-pocket summary:before{content:'';position:absolute;top:-12px;left:0;width:44%;height:18px;background:#f3d38b;border-radius:9px 16px 0 0}
+.studio-pocket summary:hover,.studio-pocket[open] summary{transform:rotate(0)}.pocket-icons{display:flex;gap:8px;margin-bottom:17px}.pocket-icons span{width:44px;height:44px;display:grid;place-items:center;font:700 18px 'Space Grotesk',sans-serif;border-radius:10px;background:#6439cf;color:white;box-shadow:0 3px 8px #51395820}.pocket-icons span:nth-child(2){background:#245d98;transform:rotate(7deg)}.pocket-icons span:nth-child(3){background:#a93862;transform:rotate(-5deg)}
+.studio-pocket strong{font:400 29px Georgia,serif;letter-spacing:-.04em}.studio-pocket small{display:block;margin-top:6px;font:12px 'Manrope',sans-serif;color:#594861}.pocket-content{padding:20px 4px 0;font:14px/1.8 'Manrope',sans-serif}.pocket-content p+p{margin-top:12px}
+.contact.wrap{background-color:#dcecc4;background-image:radial-gradient(#51395820 1px,transparent 1px),radial-gradient(ellipse at 100% 0%,#fff0b6,transparent 55%);background-size:20px 20px,auto}.contact h2 em{text-shadow:none;color:#8c367b}.contact:after{font-family:Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.065em}.back-top{border-radius:50%;box-shadow:none;border:0}
+@media(max-width:700px){.hero h1{font-size:clamp(48px,11.5vw,72px)}.work-heading h2,.about h2{font-size:clamp(48px,12vw,70px)}.project-grid{gap:38px}.project-image,.project:nth-child(even) .project-image{border-radius:22px;padding:18px;box-shadow:0 8px 20px #51395814}.project h3{font-size:29px}.project .project-context{font-size:13px}.studio-pocket{margin-top:32px;max-width:310px}.contact h2{font-size:clamp(58px,14vw,85px)}.logo{font-size:29px}}
+@media(prefers-reduced-motion:reduce){.studio-pocket summary,.project-image{transition:none}.project:hover .project-image{transform:none}}
