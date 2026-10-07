@@ -15,7 +15,7 @@
     {
       "title": "KeyMitra — A Key to Everyday Ease",
       "category": "Interaction",
-      "description": "KeyMitra grew out of our group project in DRM—Design Research Methodologies. We combined secondary research with primary research and interviewed around 30 keymakers across Mumbai. We explored the what, why and how of their work, developed a How Might We question, and returned to research before arriving at an app concept for keeping customer records. I loved seeing a conversation-led research project turn into a practical digital idea. I took part in the interviews and shared research activities with the team. The app idea was mine, and I built the KeyMitra web app.",
+      "description": "KeyMitra began with our DRM group project and conversations with around 30 keymakers in Mumbai. We combined primary and secondary research, asked “How might we?”, and explored an idea for keeping customer records. I joined the interviews and shared research, came up with the app idea, and built the web app.",
       "image": "keymitra-preview.jpg",
       "images": [
         "keymitra-preview.jpg"
@@ -39,5 +39,5 @@
       "video": "future-in-motion.mp4"
     }
   ],
-  "revision": 7
+  "revision": 8
 }
