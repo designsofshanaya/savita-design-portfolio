@@ -183,3 +183,86 @@ if (!reducedMotion.matches) {
     renderFilters(); renderProjects(); renderContact();
   } catch (error) { $('#projects').textContent = 'Projects could not load. Please refresh the page.'; $('#personalize').disabled = true; console.error(error); }
 })();
+
+// Quiet, locally composed audio; music only starts after an explicit click.
+(() => {
+  const play = $('#lofi-toggle'), sounds = $('#click-sound-toggle');
+  if (!play || !sounds) return;
+  let audio, clickBus, musicBus, musicTimer, nextBeat = 0, beat = 0;
+  let musicPlaying = false, clicksEnabled = true;
+  const AudioEngine = window.AudioContext || window.webkitAudioContext;
+  if (!AudioEngine) { $('.audio-controls').hidden = true; return; }
+  function readyAudio() {
+    if (!audio) {
+      audio = new AudioEngine();
+      clickBus = audio.createGain(); clickBus.gain.value = .045; clickBus.connect(audio.destination);
+      musicBus = audio.createGain(); musicBus.gain.value = 0; musicBus.connect(audio.destination);
+    }
+    if (audio.state === 'suspended') audio.resume().catch(() => {});
+  }
+  function tone(frequency, time, length, level, output, type = 'sine') {
+    const oscillator = audio.createOscillator(), envelope = audio.createGain();
+    oscillator.type = type; oscillator.frequency.value = frequency;
+    envelope.gain.setValueAtTime(0, time);
+    envelope.gain.linearRampToValueAtTime(level, time + .012);
+    envelope.gain.exponentialRampToValueAtTime(.0001, time + length);
+    oscillator.connect(envelope); envelope.connect(output);
+    oscillator.start(time); oscillator.stop(time + length + .03);
+    oscillator.onended = () => { oscillator.disconnect(); envelope.disconnect(); };
+  }
+  function tap() {
+    if (!clicksEnabled) return;
+    readyAudio(); tone(740, audio.currentTime, .075, .45, clickBus);
+    tone(1110, audio.currentTime + .008, .045, .15, clickBus);
+  }
+  // Original four-chord instrumental: soft electric-piano tones, bass and brushed rhythm.
+  const chords = [[130.81,164.81,196,246.94],[110,130.81,164.81,196],[87.31,110,130.81,164.81],[98,123.47,146.83,174.61]];
+  const melody = [0,2,3,2,0,1,2,1];
+  const step = 60 / 76 / 2;
+  function scheduleBeat(time, index) {
+    const chord = chords[Math.floor(index / 8) % chords.length];
+    if (index % 8 === 0) {
+      chord.forEach((note, i) => {
+        tone(note * 2, time + i * .028, 2.7, .10, musicBus);
+        tone(note * 4, time + i * .028, 1.2, .018, musicBus);
+      });
+      tone(chord[0] / 2, time, 1.4, .20, musicBus);
+    }
+    if (index % 2 === 0) tone(chord[melody[Math.floor(index / 2) % melody.length]] * 4, time + .025, .72, .045, musicBus);
+    if (index % 4 === 0) tone(65.4, time, .13, .14, musicBus);
+    if (index % 4 === 2) {
+      const noise = audio.createBuffer(1, Math.floor(audio.sampleRate * .09), audio.sampleRate);
+      const samples = noise.getChannelData(0);
+      for (let i = 0; i < samples.length; i++) samples[i] = (Math.random() * 2 - 1) * Math.exp(-i / (samples.length / 5));
+      const source = audio.createBufferSource(), filter = audio.createBiquadFilter(), gain = audio.createGain();
+      source.buffer = noise; filter.type = 'lowpass'; filter.frequency.value = 1600; gain.gain.value = .035;
+      source.connect(filter); filter.connect(gain); gain.connect(musicBus); source.start(time);
+      source.onended = () => { source.disconnect(); filter.disconnect(); gain.disconnect(); };
+    }
+  }
+  function stopMusic() {
+    musicPlaying = false; clearInterval(musicTimer);
+    if (audio) { musicBus.gain.cancelScheduledValues(audio.currentTime); musicBus.gain.setTargetAtTime(0, audio.currentTime, .09); }
+    play.setAttribute('aria-pressed', 'false'); play.setAttribute('aria-label', 'Play lo-fi music');
+    play.querySelector('.audio-label').textContent = 'Play lo-fi';
+  }
+  play.onclick = () => {
+    if (musicPlaying) { stopMusic(); return; }
+    readyAudio(); musicPlaying = true; beat = 0; nextBeat = audio.currentTime + .08;
+    musicBus.gain.cancelScheduledValues(audio.currentTime); musicBus.gain.setTargetAtTime(.55, audio.currentTime, .25);
+    const schedule = () => { while (nextBeat < audio.currentTime + .16) { scheduleBeat(nextBeat, beat++); nextBeat += step; } };
+    schedule(); musicTimer = setInterval(schedule, 70);
+    play.setAttribute('aria-pressed', 'true'); play.setAttribute('aria-label', 'Pause lo-fi music');
+    play.querySelector('.audio-label').textContent = 'Pause lo-fi';
+  };
+  sounds.onclick = () => {
+    clicksEnabled = !clicksEnabled;
+    sounds.setAttribute('aria-pressed', String(clicksEnabled));
+    sounds.setAttribute('aria-label', clicksEnabled ? 'Turn click sounds off' : 'Turn click sounds on');
+    sounds.textContent = clicksEnabled ? 'Clicks on' : 'Clicks off';
+  };
+  document.addEventListener('click', event => {
+    if (event.target.closest('button, a, summary') && !event.target.closest('#click-sound-toggle')) tap();
+  });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && musicPlaying) stopMusic(); });
+})();
