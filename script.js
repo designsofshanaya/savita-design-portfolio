@@ -302,6 +302,15 @@ if (!reducedMotion.matches) {
       }
       ctx.closePath(); ctx.fill();
     }
+    // The paper dots bend along the same tide as the colour ribbons.
+    ctx.fillStyle = '#6439cf38';
+    for (let row = -24; row < h + 24; row += 24) {
+      for (let column = -24; column < w + 24; column += 24) {
+        const dotX = column + x * 22 + Math.sin(row / h * Math.PI * 2 + phase) * 12;
+        const dotY = row + y * 16 + Math.sin(column / w * Math.PI * 2 + phase) * 8;
+        ctx.beginPath(); ctx.arc(dotX, dotY, 1, 0, Math.PI * 2); ctx.fill();
+      }
+    }
   }
   const sizes = new ResizeObserver(entries => {
     entries.forEach(entry => {
@@ -322,6 +331,8 @@ if (!reducedMotion.matches) {
   function drift(time) {
     const smoothing = 1 - Math.exp(-Math.min(time - (previousTime || time - 16), 40) / 160);
     previousTime = time; x += (targetX - x) * smoothing; y += (targetY - y) * smoothing;
+    document.documentElement.style.setProperty('--wave-dots-x', `${x * 22}px`);
+    document.documentElement.style.setProperty('--wave-dots-y', `${y * 16}px`);
     layers.forEach(layer => { if (layer.visible) paint(layer); });
     if (Math.abs(targetX - x) + Math.abs(targetY - y) > .001) animation = requestAnimationFrame(drift);
     else { animation = 0; previousTime = 0; }
