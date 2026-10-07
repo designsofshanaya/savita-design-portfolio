@@ -145,3 +145,6 @@ body{background:#fff5e9}
 /* Dots are drawn into the waves, so their motion stays in sync. */
 .work,.about,.contact.wrap{background-image:none}
 .hero:before{background-position:var(--wave-dots-x,0px) var(--wave-dots-y,0px)}
+
+/* Quiet neutral waves keep the work in focus. */
+.work{background-color:#f5f1eb}.about{background-color:#eae5ef}.contact.wrap{background-color:#e9ecdf}.color-wave{opacity:.9}
