@@ -2,9 +2,9 @@
   "linkedin": "",
   "projects": [
     {
-      "title": "Between Type & Dreams",
+      "title": "Stories Between the Letters",
       "category": "Graphics",
-      "description": "Adobe Photoshop work exploring lettering, composition, and cinematic imagery.",
+      "description": "I loved discovering how typography, colour, and composition could change the mood of a poster. Made in Adobe Photoshop, these three pieces explore cinematic stories through a visual language of their own.",
       "image": "work-60.webp",
       "images": [
         "work-60.webp",
@@ -13,9 +13,9 @@
       ]
     },
     {
-      "title": "KeyMitra — Unlocking the Everyday",
+      "title": "KeyMitra — A Key to Everyday Ease",
       "category": "Interaction",
-      "description": "A digital companion for keymakers. A calm blue-and-white interface and Hindi–English entry point introduce a practical app built around everyday record keeping. Explore the live prototype to see the experience.",
+      "description": "I made KeyMitra while exploring design research. I enjoyed taking what I was learning and turning it into an app idea for keymakers—thinking through the information they might need and how the interface could make it easier to find.",
       "image": "keymitra-preview.jpg",
       "images": [
         "keymitra-preview.jpg"
@@ -23,21 +23,21 @@
       "url": "https://pixel-perfect-display-5805.lovable.app/"
     },
     {
-      "title": "Dear Zindagi — A Little More Life",
+      "title": "Dear Zindagi — Life Through My Lens",
       "category": "Motion",
-      "description": "A moving-image project with a title that celebrates life. Presented as a complete film with its logo.",
+      "description": "I shot Dear Zindagi while learning photography and videography. I loved exploring how framing, light, and movement could turn an everyday moment into a story, then bringing those moments together in a film.",
       "image": "dear-zindagi-poster.jpg",
       "images": [],
       "video": "dear-zindagi.mp4"
     },
     {
-      "title": "Tomorrow, Imagined",
+      "title": "Tomorrow, Dreamed in Motion",
       "category": "Motion",
-      "description": "A visual journey through imagined futures, where technology and nature meet on screen.",
+      "description": "I made this video while experimenting with AI tools. I loved exploring how a prompt could become a moving image, trying different visual directions, and seeing an imagined future take shape on screen.",
       "image": "motion-poster.webp",
       "images": [],
       "video": "future-in-motion.mp4"
     }
   ],
-  "revision": 5
+  "revision": 6
 }
