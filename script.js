@@ -46,6 +46,10 @@ function renderProjects(category = 'All') {
     const arrow = document.createElement('span'); arrow.className = 'project-arrow'; arrow.textContent = '↗'; arrow.setAttribute('aria-hidden','true');
     text.append(title, categoryLabel); caption.append(text, arrow); button.append(frame, caption);
     button.onclick = () => { selectedProject = project; mediaIndex = 0; renderGallery(); openDialog(gallery); };
+    const note = document.createElement('p'); note.className = 'project-context';
+    const contexts = { Graphics: 'Playing with type, colour & Adobe Photoshop.', Interaction: 'An app idea that grew out of design research.' };
+    note.textContent = contexts[project.category] || (project.video?.includes('dear-zindagi') ? 'Finding stories through photography & videography.' : 'Turning imagination into motion with AI tools.');
+    text.append(note);
     container.append(button);
   });
   $('#project-status').textContent = `${projects.length} projects shown${category === 'All' ? '' : ` in ${category}`}.`;
