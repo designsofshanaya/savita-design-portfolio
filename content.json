@@ -1,0 +1,46 @@
+{
+  "linkedin": "",
+  "projects": [
+    {
+      "title": "Between Type & Dreams",
+      "category": "Graphics",
+      "description": "Posters inspired by Inception and The Lord of the Rings explore the expressive possibilities of lettering, composition, and cinematic imagery.",
+      "image": "work-60.webp",
+      "images": [
+        "work-60.webp",
+        "work-59.webp",
+        "work-58.webp",
+        "work-56.webp",
+        "work-57.webp",
+        "work-55.webp"
+      ]
+    },
+    {
+      "title": "KeyMitra — Unlocking the Everyday",
+      "category": "Interaction",
+      "description": "A digital companion for keymakers. A calm blue-and-white interface and Hindi–English entry point introduce a practical app built around everyday record keeping. Explore the live prototype to see the experience.",
+      "image": "keymitra-preview.jpg",
+      "images": [
+        "keymitra-preview.jpg"
+      ],
+      "url": "https://pixel-perfect-display-5805.lovable.app/"
+    },
+    {
+      "title": "Dear Zindagi — A Little More Life",
+      "category": "Motion",
+      "description": "A moving-image project with a title that celebrates life. Presented as a complete film with its logo.",
+      "image": "dear-zindagi-poster.jpg",
+      "images": [],
+      "video": "dear-zindagi.mp4"
+    },
+    {
+      "title": "Tomorrow, Imagined",
+      "category": "Motion",
+      "description": "A visual journey through imagined futures, where technology and nature meet on screen.",
+      "image": "motion-poster.webp",
+      "images": [],
+      "video": "future-in-motion.mp4"
+    }
+  ],
+  "revision": 4
+}
