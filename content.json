@@ -4,15 +4,12 @@
     {
       "title": "Between Type & Dreams",
       "category": "Graphics",
-      "description": "Posters inspired by Inception and The Lord of the Rings explore the expressive possibilities of lettering, composition, and cinematic imagery.",
+      "description": "Adobe Photoshop work exploring lettering, composition, and cinematic imagery.",
       "image": "work-60.webp",
       "images": [
         "work-60.webp",
         "work-59.webp",
-        "work-58.webp",
-        "work-56.webp",
-        "work-57.webp",
-        "work-55.webp"
+        "work-58.webp"
       ]
     },
     {
@@ -42,5 +39,5 @@
       "video": "future-in-motion.mp4"
     }
   ],
-  "revision": 4
+  "revision": 5
 }
