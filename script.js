@@ -173,7 +173,7 @@ if (!reducedMotion.matches) {
 
 (async () => {
   try {
-    const response = await fetch('content.json'); if (!response.ok) throw new Error('Could not load project content.');
+    const response = await fetch('content.json', { cache: 'no-store' }); if (!response.ok) throw new Error('Could not load project content.');
     content = await response.json();
     try { const saved = JSON.parse(localStorage.getItem(storageKey)); if (saved?.projects?.length === content.projects.length) { content.linkedin = saved.linkedin || ''; content.projects.forEach((p, i) => { if (typeof saved.projects[i].title === 'string') p.title = saved.projects[i].title; }); } } catch {}
     renderFilters(); renderProjects(); renderContact();
