@@ -15,7 +15,7 @@
     {
       "title": "KeyMitra — A Key to Everyday Ease",
       "category": "Interaction",
-      "description": "I made KeyMitra while exploring design research. I enjoyed taking what I was learning and turning it into an app idea for keymakers—thinking through the information they might need and how the interface could make it easier to find.",
+      "description": "KeyMitra grew out of our group project in DRM—Design Research Methodologies. We combined secondary research with primary research and interviewed around 30 keymakers across Mumbai. We explored the what, why and how of their work, developed a How Might We question, and returned to research before arriving at an app concept for keeping customer records. I loved seeing a conversation-led research project turn into a practical digital idea.",
       "image": "keymitra-preview.jpg",
       "images": [
         "keymitra-preview.jpg"
@@ -39,5 +39,5 @@
       "video": "future-in-motion.mp4"
     }
   ],
-  "revision": 6
+  "revision": 7
 }
