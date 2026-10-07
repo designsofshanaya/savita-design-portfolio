@@ -263,9 +263,9 @@ if (!reducedMotion.matches) {
 // Soft colour tides sit behind the content and follow the pointer with inertia.
 (() => {
   const themes = [
-    ['.work', '#ffc09f', '#bba4f0'],
-    ['.about', '#c9adf0', '#f5a0c4'],
-    ['.contact', '#b5dfa1', '#ffda84']
+    ['.work', '#f5eee6', '#e7e3ee'],
+    ['.about', '#e9e4f0', '#f0e5e9'],
+    ['.contact', '#e6eadf', '#f1ecdf']
   ];
   const layers = themes.map(([selector, left, right]) => {
     const section = $(selector), canvas = document.createElement('canvas');
@@ -296,7 +296,7 @@ if (!reducedMotion.matches) {
       ctx.closePath(); ctx.fill();
     }
     // The paper dots bend along the same tide as the colour ribbons.
-    ctx.fillStyle = '#6439cf38';
+    ctx.fillStyle = '#665b7526';
     for (let row = -24; row < h + 24; row += 24) {
       for (let column = -24; column < w + 24; column += 24) {
         const dotX = column + x * 22 + Math.sin(row / h * Math.PI * 2 + phase) * 12;
