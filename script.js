@@ -186,10 +186,10 @@ if (!reducedMotion.matches) {
 
 // Quiet, locally composed audio; music only starts after an explicit click.
 (() => {
-  const play = $('#lofi-toggle'), sounds = $('#click-sound-toggle');
-  if (!play || !sounds) return;
+  const play = $('#lofi-toggle');
+  if (!play) return;
   let audio, clickBus, musicBus, musicTimer, nextBeat = 0, beat = 0;
-  let musicPlaying = false, clicksEnabled = true;
+  let musicPlaying = false;
   const AudioEngine = window.AudioContext || window.webkitAudioContext;
   if (!AudioEngine) { $('.audio-controls').hidden = true; return; }
   function readyAudio() {
@@ -211,7 +211,6 @@ if (!reducedMotion.matches) {
     oscillator.onended = () => { oscillator.disconnect(); envelope.disconnect(); };
   }
   function tap() {
-    if (!clicksEnabled) return;
     readyAudio(); tone(740, audio.currentTime, .075, .45, clickBus);
     tone(1110, audio.currentTime + .008, .045, .15, clickBus);
   }
@@ -255,14 +254,8 @@ if (!reducedMotion.matches) {
     play.setAttribute('aria-pressed', 'true'); play.setAttribute('aria-label', 'Pause lo-fi music');
     play.querySelector('.audio-label').textContent = 'Pause lo-fi';
   };
-  sounds.onclick = () => {
-    clicksEnabled = !clicksEnabled;
-    sounds.setAttribute('aria-pressed', String(clicksEnabled));
-    sounds.setAttribute('aria-label', clicksEnabled ? 'Turn click sounds off' : 'Turn click sounds on');
-    sounds.textContent = clicksEnabled ? 'Clicks on' : 'Clicks off';
-  };
   document.addEventListener('click', event => {
-    if (event.target.closest('button, a, summary') && !event.target.closest('#click-sound-toggle')) tap();
+    if (event.target.closest('button, a, summary')) tap();
   });
   document.addEventListener('visibilitychange', () => { if (document.hidden && musicPlaying) stopMusic(); });
 })();
