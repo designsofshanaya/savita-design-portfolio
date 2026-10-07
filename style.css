@@ -139,3 +139,5 @@ body{background:#fff5e9}
 .work,.about,.contact{position:relative;isolation:isolate;overflow:hidden}
 .color-wave{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.66}
 .work>*:not(.color-wave),.about>.wrap,.contact>*:not(.color-wave){position:relative;z-index:1}
+
+.color-wave{opacity:.86}
