@@ -270,9 +270,9 @@ if (!reducedMotion.matches) {
 // Soft colour tides sit behind the content and follow the pointer with inertia.
 (() => {
   const themes = [
-    ['.work', '#ffc9b0', '#ccb9f6'],
-    ['.about', '#d8c5f5', '#f6b9d0'],
-    ['.contact', '#bfe7b1', '#ffe4a0']
+    ['.work', '#ffc09f', '#bba4f0'],
+    ['.about', '#c9adf0', '#f5a0c4'],
+    ['.contact', '#b5dfa1', '#ffda84']
   ];
   const layers = themes.map(([selector, left, right]) => {
     const section = $(selector), canvas = document.createElement('canvas');
@@ -285,21 +285,19 @@ if (!reducedMotion.matches) {
     const { context: ctx, width: w, height: h, left, right } = layer;
     if (!ctx || !w || !h) return;
     ctx.clearRect(0, 0, w, h);
-    const middle = w * (.5 + x * .16), phase = x * 2.1 + y * 1.3;
+    const middle = w * (.5 + x * .23), phase = x * 2.7 + y * 2.1;
     const wash = ctx.createLinearGradient(middle - w * .55, 0, middle + w * .55, h);
     wash.addColorStop(0, left); wash.addColorStop(1, right);
     ctx.fillStyle = wash; ctx.fillRect(0, 0, w, h);
     for (let band = 0; band < 3; band++) {
-      const start = middle + (band - 1) * w * .12;
-      const glow = ctx.createLinearGradient(start - w * .25, 0, start + w * .3, 0);
-      glow.addColorStop(0, left + '00'); glow.addColorStop(.48, (band % 2 ? left : right) + '70'); glow.addColorStop(1, right + '00');
-      ctx.fillStyle = glow; ctx.beginPath();
-      for (let row = -20; row <= h + 20; row += 16) {
-        const edge = start + Math.sin(row / Math.max(h, 1) * Math.PI * 2 + phase + band * .85) * w * .12 + Math.cos(row / Math.max(h, 1) * Math.PI * 3 - phase) * w * .035;
+      const start = middle + (band - 1.5) * w * .26;
+      ctx.fillStyle = (band % 2 ? left : right) + 'a6'; ctx.beginPath();
+      for (let row = -20; row <= h + 20; row += 8) {
+        const edge = start + Math.sin(row / Math.max(h, 1) * Math.PI * 2 + phase + band * .85) * w * .18 + Math.cos(row / Math.max(h, 1) * Math.PI * 3 - phase) * w * .045;
         if (row === -20) ctx.moveTo(edge, row); else ctx.lineTo(edge, row);
       }
-      for (let row = h + 20; row >= -20; row -= 16) {
-        const edge = start + w * .32 + Math.sin(row / Math.max(h, 1) * Math.PI * 2 + phase + band * .85 + .4) * w * .12;
+      for (let row = h + 20; row >= -20; row -= 8) {
+        const edge = start + w * .29 + Math.sin(row / Math.max(h, 1) * Math.PI * 2 + phase + band * .85 + .4) * w * .18;
         ctx.lineTo(edge, row);
       }
       ctx.closePath(); ctx.fill();
