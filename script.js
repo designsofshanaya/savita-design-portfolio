@@ -338,3 +338,25 @@ if (!reducedMotion.matches) {
   document.documentElement.addEventListener('pointerleave', () => { targetX = targetY = 0; start(); });
   reducedMotion.addEventListener('change', () => { targetX = targetY = 0; start(); });
 })();
+
+// Small, bounded notes: drag with a pointer or move with keyboard arrows.
+document.querySelectorAll('.desk-note').forEach(note => {
+  let offsetX = 0, offsetY = 0, drag;
+  const place = (x, y) => {
+    const limit = Math.max(50, Math.min(innerWidth * .18, 140));
+    offsetX = Math.max(-24, Math.min(limit, x)); offsetY = Math.max(-140, Math.min(35, y));
+    note.style.setProperty('--note-x', `${offsetX}px`); note.style.setProperty('--note-y', `${offsetY}px`);
+  };
+  note.addEventListener('pointerdown', event => {
+    if (event.button !== 0) return;
+    drag = { id:event.pointerId, x:event.clientX, y:event.clientY, startX:offsetX, startY:offsetY };
+    note.setPointerCapture(event.pointerId);
+  });
+  note.addEventListener('pointermove', event => { if (drag?.id === event.pointerId) place(drag.startX + event.clientX - drag.x, drag.startY + event.clientY - drag.y); });
+  const finish = () => { drag = null; };
+  note.addEventListener('pointerup', finish); note.addEventListener('pointercancel', finish); note.addEventListener('lostpointercapture', finish);
+  note.addEventListener('keydown', event => {
+    const directions = { ArrowLeft:[-12,0], ArrowRight:[12,0], ArrowUp:[0,-12], ArrowDown:[0,12] };
+    if (directions[event.key]) { event.preventDefault(); place(offsetX + directions[event.key][0], offsetY + directions[event.key][1]); }
+  });
+});
