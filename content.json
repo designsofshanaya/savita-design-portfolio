@@ -15,7 +15,7 @@
     {
       "title": "KeyMitra — A Key to Everyday Ease",
       "category": "Interaction",
-      "description": "KeyMitra began with our DRM group project and conversations with around 30 keymakers in Mumbai. We combined primary and secondary research, asked “How might we?”, and explored an idea for keeping customer records. I joined the interviews and shared research, came up with the app idea, and built the web app.",
+      "description": "KeyMitra began with our DRM group project and conversations with around 30 keymakers in Mumbai. We combined primary and secondary research, asked “How might we?”, and explored an idea for keeping customer records. I took part in the interviews and research, and brought the customer-record concept to life as KeyMitra.",
       "image": "keymitra-preview.jpg",
       "images": [
         "keymitra-preview.jpg"
@@ -39,5 +39,5 @@
       "video": "future-in-motion.mp4"
     }
   ],
-  "revision": 8
+  "revision": 9
 }
