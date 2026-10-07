@@ -39,6 +39,17 @@ function renderProjects(category = 'All') {
     const frame = document.createElement('div'); frame.className = 'project-image';
     const image = document.createElement('img'); image.src = project.image; image.alt = project.title; image.loading = 'lazy'; image.decoding = 'async';
     frame.append(image);
+    if (project.video) {
+      const preview = document.createElement('video'); preview.className = 'project-preview';
+      preview.muted = true; preview.loop = true; preview.playsInline = true; preview.preload = 'none'; preview.poster = project.image;
+      preview.setAttribute('aria-hidden', 'true');
+      const showPreview = () => { if (reducedMotion.matches) return; if (!preview.src) preview.src = project.video; preview.play().catch(() => {}); };
+      const stopPreview = () => { preview.pause(); };
+      button.addEventListener('pointerenter', showPreview); button.addEventListener('pointerleave', stopPreview);
+      button.addEventListener('focus', showPreview); button.addEventListener('blur', stopPreview);
+      button.addEventListener('click', stopPreview);
+      frame.append(preview);
+    }
     const caption = document.createElement('div'); caption.className = 'project-caption';
     const text = document.createElement('div');
     const title = document.createElement('h3'); title.textContent = project.title;
@@ -211,30 +222,29 @@ if (!reducedMotion.matches) {
     oscillator.onended = () => { oscillator.disconnect(); envelope.disconnect(); };
   }
   function tap() {
-    readyAudio(); tone(740, audio.currentTime, .075, .45, clickBus);
-    tone(1110, audio.currentTime + .008, .045, .15, clickBus);
+    readyAudio(); tone(320, audio.currentTime, .055, .28, clickBus, 'triangle');
+    tone(190, audio.currentTime + .006, .04, .10, clickBus);
   }
   // Original four-chord instrumental: soft electric-piano tones, bass and brushed rhythm.
-  const chords = [[130.81,164.81,196,246.94],[110,130.81,164.81,196],[87.31,110,130.81,164.81],[98,123.47,146.83,174.61]];
-  const melody = [0,2,3,2,0,1,2,1];
-  const step = 60 / 76 / 2;
+  const chords = [[146.83,174.61,220,261.63],[130.81,164.81,196,246.94],[87.31,110,130.81,164.81],[98,123.47,146.83,185]];
+  const melody = [3,2,1,0,1,2,3,1];
+  const step = 60 / 64 / 2;
   function scheduleBeat(time, index) {
     const chord = chords[Math.floor(index / 8) % chords.length];
     if (index % 8 === 0) {
       chord.forEach((note, i) => {
-        tone(note * 2, time + i * .028, 2.7, .10, musicBus);
-        tone(note * 4, time + i * .028, 1.2, .018, musicBus);
+        tone(note * 2, time + i * .06, 3.8, .07, musicBus);
+        tone(note, time + i * .06, 2.8, .025, musicBus);
       });
-      tone(chord[0] / 2, time, 1.4, .20, musicBus);
+      tone(chord[0] / 2, time, 2.6, .09, musicBus);
     }
-    if (index % 2 === 0) tone(chord[melody[Math.floor(index / 2) % melody.length]] * 4, time + .025, .72, .045, musicBus);
-    if (index % 4 === 0) tone(65.4, time, .13, .14, musicBus);
-    if (index % 4 === 2) {
+    if (index % 4 === 0) tone(chord[melody[Math.floor(index / 4) % melody.length]] * 2, time + .12, 1.8, .025, musicBus);
+    if (index % 8 === 6) {
       const noise = audio.createBuffer(1, Math.floor(audio.sampleRate * .09), audio.sampleRate);
       const samples = noise.getChannelData(0);
       for (let i = 0; i < samples.length; i++) samples[i] = (Math.random() * 2 - 1) * Math.exp(-i / (samples.length / 5));
       const source = audio.createBufferSource(), filter = audio.createBiquadFilter(), gain = audio.createGain();
-      source.buffer = noise; filter.type = 'lowpass'; filter.frequency.value = 1600; gain.gain.value = .035;
+      source.buffer = noise; filter.type = 'lowpass'; filter.frequency.value = 900; gain.gain.value = .012;
       source.connect(filter); filter.connect(gain); gain.connect(musicBus); source.start(time);
       source.onended = () => { source.disconnect(); filter.disconnect(); gain.disconnect(); };
     }
@@ -248,7 +258,7 @@ if (!reducedMotion.matches) {
   play.onclick = () => {
     if (musicPlaying) { stopMusic(); return; }
     readyAudio(); musicPlaying = true; beat = 0; nextBeat = audio.currentTime + .08;
-    musicBus.gain.cancelScheduledValues(audio.currentTime); musicBus.gain.setTargetAtTime(.55, audio.currentTime, .25);
+    musicBus.gain.cancelScheduledValues(audio.currentTime); musicBus.gain.setTargetAtTime(.38, audio.currentTime, .6);
     const schedule = () => { while (nextBeat < audio.currentTime + .16) { scheduleBeat(nextBeat, beat++); nextBeat += step; } };
     schedule(); musicTimer = setInterval(schedule, 70);
     play.setAttribute('aria-pressed', 'true'); play.setAttribute('aria-label', 'Pause lo-fi music');
