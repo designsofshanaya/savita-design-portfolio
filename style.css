@@ -141,3 +141,7 @@ body{background:#fff5e9}
 .work>*:not(.color-wave),.about>.wrap,.contact>*:not(.color-wave){position:relative;z-index:1}
 
 .color-wave{opacity:.86}
+
+/* Dots are drawn into the waves, so their motion stays in sync. */
+.work,.about,.contact.wrap{background-image:none}
+.hero:before{background-position:var(--wave-dots-x,0px) var(--wave-dots-y,0px)}
