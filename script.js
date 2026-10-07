@@ -179,7 +179,7 @@ if (!reducedMotion.matches) {
   try {
     const response = await fetch('content.json', { cache: 'no-store' }); if (!response.ok) throw new Error('Could not load project content.');
     content = await response.json();
-    try { const saved = JSON.parse(localStorage.getItem(storageKey)); if (saved?.projects?.length === content.projects.length) { content.linkedin = saved.linkedin || ''; content.projects.forEach((p, i) => { if (typeof saved.projects[i].title === 'string') p.title = saved.projects[i].title; }); } } catch {}
+    try { const saved = JSON.parse(localStorage.getItem(storageKey)); if (saved?.revision === content.revision && saved?.projects?.length === content.projects.length) { content.linkedin = saved.linkedin || ''; content.projects.forEach((p, i) => { if (typeof saved.projects[i].title === 'string') p.title = saved.projects[i].title; }); } } catch {}
     renderFilters(); renderProjects(); renderContact();
   } catch (error) { $('#projects').textContent = 'Projects could not load. Please refresh the page.'; $('#personalize').disabled = true; console.error(error); }
 })();
@@ -265,4 +265,74 @@ if (!reducedMotion.matches) {
     if (event.target.closest('button, a, summary') && !event.target.closest('#click-sound-toggle')) tap();
   });
   document.addEventListener('visibilitychange', () => { if (document.hidden && musicPlaying) stopMusic(); });
+})();
+
+// Soft colour tides sit behind the content and follow the pointer with inertia.
+(() => {
+  const themes = [
+    ['.work', '#ffc9b0', '#ccb9f6'],
+    ['.about', '#d8c5f5', '#f6b9d0'],
+    ['.contact', '#bfe7b1', '#ffe4a0']
+  ];
+  const layers = themes.map(([selector, left, right]) => {
+    const section = $(selector), canvas = document.createElement('canvas');
+    canvas.className = 'color-wave'; canvas.setAttribute('aria-hidden', 'true');
+    section.prepend(canvas);
+    return { section, canvas, context: canvas.getContext('2d'), left, right, width: 0, height: 0, visible: true };
+  });
+  let x = 0, y = 0, targetX = 0, targetY = 0, animation = 0, previousTime = 0;
+  function paint(layer) {
+    const { context: ctx, width: w, height: h, left, right } = layer;
+    if (!ctx || !w || !h) return;
+    ctx.clearRect(0, 0, w, h);
+    const middle = w * (.5 + x * .16), phase = x * 2.1 + y * 1.3;
+    const wash = ctx.createLinearGradient(middle - w * .55, 0, middle + w * .55, h);
+    wash.addColorStop(0, left); wash.addColorStop(1, right);
+    ctx.fillStyle = wash; ctx.fillRect(0, 0, w, h);
+    for (let band = 0; band < 3; band++) {
+      const start = middle + (band - 1) * w * .12;
+      const glow = ctx.createLinearGradient(start - w * .25, 0, start + w * .3, 0);
+      glow.addColorStop(0, left + '00'); glow.addColorStop(.48, (band % 2 ? left : right) + '70'); glow.addColorStop(1, right + '00');
+      ctx.fillStyle = glow; ctx.beginPath();
+      for (let row = -20; row <= h + 20; row += 16) {
+        const edge = start + Math.sin(row / Math.max(h, 1) * Math.PI * 2 + phase + band * .85) * w * .12 + Math.cos(row / Math.max(h, 1) * Math.PI * 3 - phase) * w * .035;
+        if (row === -20) ctx.moveTo(edge, row); else ctx.lineTo(edge, row);
+      }
+      for (let row = h + 20; row >= -20; row -= 16) {
+        const edge = start + w * .32 + Math.sin(row / Math.max(h, 1) * Math.PI * 2 + phase + band * .85 + .4) * w * .12;
+        ctx.lineTo(edge, row);
+      }
+      ctx.closePath(); ctx.fill();
+    }
+  }
+  const sizes = new ResizeObserver(entries => {
+    entries.forEach(entry => {
+      const layer = layers.find(item => item.section === entry.target);
+      layer.width = Math.round(entry.contentRect.width); layer.height = Math.round(entry.contentRect.height);
+      // Use the complete border box, including section padding.
+      layer.width = layer.section.clientWidth; layer.height = layer.section.clientHeight;
+      const density = Math.min(devicePixelRatio || 1, 1.25);
+      layer.canvas.width = Math.round(layer.width * density); layer.canvas.height = Math.round(layer.height * density);
+      layer.context?.setTransform(density, 0, 0, density, 0, 0); paint(layer);
+    });
+  });
+  const visibility = new IntersectionObserver(entries => entries.forEach(entry => {
+    const layer = layers.find(item => item.section === entry.target); layer.visible = entry.isIntersecting;
+    if (layer.visible) paint(layer);
+  }));
+  layers.forEach(layer => { sizes.observe(layer.section); visibility.observe(layer.section); });
+  function drift(time) {
+    const smoothing = 1 - Math.exp(-Math.min(time - (previousTime || time - 16), 40) / 160);
+    previousTime = time; x += (targetX - x) * smoothing; y += (targetY - y) * smoothing;
+    layers.forEach(layer => { if (layer.visible) paint(layer); });
+    if (Math.abs(targetX - x) + Math.abs(targetY - y) > .001) animation = requestAnimationFrame(drift);
+    else { animation = 0; previousTime = 0; }
+  }
+  function start() { if (!animation) animation = requestAnimationFrame(drift); }
+  window.addEventListener('pointermove', event => {
+    if (reducedMotion.matches || event.pointerType === 'touch') return;
+    targetX = event.clientX / innerWidth * 2 - 1; targetY = event.clientY / innerHeight * 2 - 1; start();
+  }, { passive: true });
+  document.documentElement.addEventListener('pointerleave', () => { targetX = targetY = 0; start(); });
+  reducedMotion.addEventListener('change', () => { targetX = targetY = 0; start(); });
 })();
