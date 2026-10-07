@@ -34,7 +34,7 @@ function renderProjects(category = 'All') {
   const container = $('#projects'); container.replaceChildren();
   const projects = content.projects.filter(p => category === 'All' || p.category === category);
   projects.forEach(project => {
-    const button = document.createElement('button'); button.className = 'project';
+    const button = document.createElement('button'); button.className = 'project'; button.dataset.category = project.category;
     button.setAttribute('aria-label', `View ${project.title}`);
     const frame = document.createElement('div'); frame.className = 'project-image';
     const image = document.createElement('img'); image.src = project.image; image.alt = project.title; image.loading = 'lazy'; image.decoding = 'async';
@@ -273,6 +273,7 @@ if (!reducedMotion.matches) {
 // Soft colour tides sit behind the content and follow the pointer with inertia.
 (() => {
   const themes = [
+    ['#home', '#faf8f1', '#eee8f1'],
     ['.work', '#f5eee6', '#e7e3ee'],
     ['.about', '#e9e4f0', '#f0e5e9'],
     ['.contact', '#e6eadf', '#f1ecdf']
