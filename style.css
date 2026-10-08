@@ -217,3 +217,14 @@ body{background:var(--bg)}.header{position:absolute;top:0;left:0;max-width:none;
 .desk-note:hover,.desk-note:focus-visible,.desk-note:active{animation-play-state:paused}
 @keyframes note-float{0%,100%{translate:0 0}50%{translate:3px -12px}}
 @media(prefers-reduced-motion:reduce){.desk-note{animation:none;will-change:auto}}
+
+/* One quiet cream theme, without waves or background patterns. */
+:root{--bg:#f8f5ed;--panel:#f0ece3;--text:#28252b;--accent:#39343e;--muted:#6c666f}
+body,.work,.about,.contact.wrap{background:#f8f5ed;background-image:none;color:var(--text)}
+.color-wave{display:none}.work:before,.about:after,.contact:after{display:none}
+.project .project-image,.project:nth-child(even) .project-image{background:#f0ece3}
+.filters button{background:#eee9df}.filters button[aria-pressed=true]{background:#39343e;color:#fffdf8}
+.project p:not(.project-context){background:#eee9df;color:#514b55}.tool-chips span{background:#eee9df}
+.note-one,.note-two{background:#f0e6ce}.note-pin{background:#b6aa9180}
+.audio-controls,.header nav,.header nav.open{background:#f8f5edf2}.header nav a:hover,.audio-controls #lofi-toggle:hover{background:#eee9df}
+.record-disc:after{background:#c9baa2}.hero .motion-caption{background:#f8f5eddf}
