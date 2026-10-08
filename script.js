@@ -319,3 +319,8 @@ reducedMotion.addEventListener('change', () => {
     element.classList.add('is-revealed'); revealObserver.unobserve(element);
   });
 });
+
+const resumeViewer = document.getElementById('resume-viewer');
+document.getElementById('open-resume').addEventListener('click', () => resumeViewer.showModal());
+document.getElementById('close-resume').addEventListener('click', () => resumeViewer.close());
+resumeViewer.addEventListener('click', event => { if (event.target === resumeViewer) { const rect = resumeViewer.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) resumeViewer.close(); } });
