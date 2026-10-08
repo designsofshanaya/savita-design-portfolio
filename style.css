@@ -17,10 +17,10 @@
 
 #character-up-video{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .12s linear}
 
-@font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('manrope-400.ttf') format('truetype')}
-@font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('manrope-600.ttf') format('truetype')}
-@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:500;font-display:swap;src:url('space-grotesk-500.ttf') format('truetype')}
-@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:700;font-display:swap;src:url('space-grotesk-700.ttf') format('truetype')}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/manrope-400.ttf') format('truetype')}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/manrope-600.ttf') format('truetype')}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/space-grotesk-500.ttf') format('truetype')}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/space-grotesk-700.ttf') format('truetype')}
 :root{font-family:'Manrope',Arial,sans-serif}
 body,input,button{font-family:'Manrope',Arial,sans-serif}
 h1,h2,h3,.logo{font-family:'Space Grotesk',Arial,sans-serif}
@@ -241,3 +241,5 @@ body,.work,.about,.contact.wrap{background:#fffef9;background-image:none;color:v
 .hero:after{background:linear-gradient(90deg,#f5d786e8 0%,#f5d7869c 28%,#f5d78600 65%)}
 @media(max-width:700px){.hero:after{background:linear-gradient(180deg,#f5d786d9 0%,#f5d78699 40%,#f5d78610 75%)}}
 dialog{background:#fffef9}.icon-button:hover{background:#fff2c4}.primary-button:hover{background:#fff2c4;color:#302b22}
+
+.resume-card{display:grid;grid-template-columns:180px 1fr;gap:40px;align-items:center;margin-top:45px;padding-top:35px;border-top:1px solid #d7c89360}.resume-preview{display:block;box-shadow:0 8px 24px #51452a18;transition:transform .25s}.resume-preview:hover{transform:rotate(-2deg)}.resume-preview img{width:100%;height:auto}.resume-card h3{font:400 38px/1.1 Georgia,serif;margin-top:16px;letter-spacing:-.04em}.resume-card p:not(.section-label){font:13px/1.8 'Manrope',sans-serif;color:#766e5e;margin-top:16px}.resume-actions{display:flex;gap:22px;align-items:center;flex-wrap:wrap}.resume-actions>a:not(.primary-button){font-size:12px;margin-top:20px}.resume-actions .primary-button{padding:14px 20px;border:0;background:#f0cf70;color:#302b22;font:500 12px 'Manrope',sans-serif}.hero-links{flex-wrap:wrap;row-gap:10px}@media(max-width:700px){.resume-card{grid-template-columns:105px 1fr;gap:20px}.resume-card h3{font-size:28px}.resume-card .section-label{font-size:8px}.resume-actions{gap:0}.resume-actions .primary-button{padding:12px 15px}.resume-card p:not(.section-label){font-size:11px}}
