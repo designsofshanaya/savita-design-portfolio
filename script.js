@@ -62,6 +62,7 @@ function renderProjects(category = 'All') {
     note.textContent = contexts[project.category] || (project.video?.includes('dear-zindagi') ? 'Finding stories through photography & videography.' : 'Turning imagination into motion with AI tools.');
     text.append(note);
     container.append(button);
+    observeScrollReveal(button, projects.indexOf(project) % 2 * 90);
   });
   $('#project-status').textContent = `${projects.length} projects shown${category === 'All' ? '' : ` in ${category}`}.`;
 }
@@ -369,5 +370,32 @@ document.querySelectorAll('.desk-note').forEach(note => {
   note.addEventListener('keydown', event => {
     const directions = { ArrowLeft:[-12,0], ArrowRight:[12,0], ArrowUp:[0,-12], ArrowDown:[0,12] };
     if (directions[event.key]) { event.preventDefault(); place(offsetX + directions[event.key][0], offsetY + directions[event.key][1]); }
+  });
+});
+
+
+// Reveal content once as it enters the viewport; keep keyboard access immediate.
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-revealed');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: .08, rootMargin: '0px 0px -35px 0px' });
+function observeScrollReveal(element, delay = 0) {
+  element.classList.add('scroll-reveal');
+  element.style.setProperty('--reveal-delay', `${delay}ms`);
+  if (reducedMotion.matches) element.classList.add('is-revealed');
+  else revealObserver.observe(element);
+}
+document.querySelectorAll('.work-heading, .filters, .research-story, .about-intro, .toolkit, .contact-layout, .studio-ticker').forEach((element, index) => observeScrollReveal(element, index % 2 * 90));
+document.addEventListener('focusin', event => {
+  const element = event.target.closest('.scroll-reveal');
+  if (element) { element.classList.add('is-revealed'); revealObserver.unobserve(element); }
+});
+reducedMotion.addEventListener('change', () => {
+  if (reducedMotion.matches) document.querySelectorAll('.scroll-reveal').forEach(element => {
+    element.classList.add('is-revealed'); revealObserver.unobserve(element);
   });
 });
