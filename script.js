@@ -323,3 +323,15 @@ reducedMotion.addEventListener('change', () => {
 const resumeViewer = document.getElementById('resume-viewer');
 document.getElementById('open-resume').addEventListener('click', () => resumeViewer.showModal());
 document.getElementById('close-resume').addEventListener('click', () => resumeViewer.close());
+
+const resumeKitten = document.querySelector('.resume-kitten');
+if (resumeKitten) {
+  const kittenVisibility = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (entry.isIntersecting && !reducedMotion.matches) resumeKitten.play().catch(() => {});
+      else resumeKitten.pause();
+    }
+  }, { threshold: .2 });
+  kittenVisibility.observe(resumeKitten);
+  reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) resumeKitten.pause(); });
+}
