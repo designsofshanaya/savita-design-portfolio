@@ -210,3 +210,10 @@ body{background:var(--bg)}.header{position:absolute;top:0;left:0;max-width:none;
 .scroll-reveal.is-revealed{opacity:1;translate:0 0;scale:1}
 .scroll-reveal:focus-within{opacity:1;translate:0 0;scale:1;transition-delay:0s}
 @media(prefers-reduced-motion:reduce){.scroll-reveal{opacity:1;translate:none;scale:none;transition:none}}
+
+/* Notes drift gently and settle while being interacted with. */
+.desk-note{animation:note-float 5.5s ease-in-out infinite;will-change:translate}
+.desk-note.note-two{animation-delay:-2.8s;animation-duration:6.3s}
+.desk-note:hover,.desk-note:focus-visible,.desk-note:active{animation-play-state:paused}
+@keyframes note-float{0%,100%{translate:0 0}50%{translate:3px -12px}}
+@media(prefers-reduced-motion:reduce){.desk-note{animation:none;will-change:auto}}
