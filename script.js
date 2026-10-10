@@ -72,7 +72,7 @@ function renderProjects(category = 'All') {
     const title = document.createElement('h3'); title.textContent = project.title;
     const categoryLabel = document.createElement('p'); categoryLabel.textContent = project.category;
     const arrow = document.createElement('span'); arrow.className = 'project-arrow'; arrow.textContent = '↗'; arrow.setAttribute('aria-hidden','true');
-    const action = document.createElement('span'); action.className = 'project-action'; action.textContent = project.category === 'Graphics' ? 'View all three posters ↗' : project.category === 'Interaction' ? 'Explore KeyMitra ↗' : 'Watch the film ↗';
+    const action = document.createElement('span'); action.className = 'project-action'; action.textContent = project.category === 'Graphics' ? 'View all three posters ↗' : project.category === 'Interaction' ? 'View app screenshots ↗' : 'Watch the film ↗';
     text.append(title, categoryLabel, action); caption.append(text, arrow); button.append(frame, caption);
     button.onclick = () => { selectedProject = project; mediaIndex = 0; renderGallery(); openDialog(gallery); };
     const note = document.createElement('p'); note.className = 'project-context';
@@ -122,9 +122,9 @@ function renderGallery() {
   container.querySelectorAll('video').forEach(v => v.pause()); container.replaceChildren();
   const element = document.createElement(item.type === 'video' ? 'video' : 'img'); element.src = item.src;
   if (item.type === 'video') { element.controls = true; element.playsInline = true; element.preload = 'metadata'; element.poster = selectedProject.image; }
-  else element.alt = `${selectedProject.title}, image ${mediaIndex + 1}`;
+  else element.alt = selectedProject.imageDescriptions?.[mediaIndex] || `${selectedProject.title}, image ${mediaIndex + 1}`;
   container.append(element);
-  $('#gallery-counter').textContent = item.type === 'video' ? 'Film · Play to explore' : `${mediaIndex + 1} / ${media.length}`;
+  $('#gallery-counter').textContent = item.type === 'video' ? 'Film · Play to explore' : `${mediaIndex + 1} / ${media.length}${selectedProject.imageDescriptions ? ' — ' + selectedProject.imageDescriptions[mediaIndex] : ''}`;
   $('#previous').disabled = $('#next').disabled = media.length < 2;
 }
 function moveGallery(delta) { const length = projectMedia().length; mediaIndex = (mediaIndex + delta + length) % length; renderGallery(); }
