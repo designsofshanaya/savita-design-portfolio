@@ -94,6 +94,9 @@ function renderGallery() {
   $('#gallery-title').textContent = selectedProject.title;
   $('#gallery-category').textContent = selectedProject.category;
   $('#gallery-description').textContent = selectedProject.description;
+  const study = $('#gallery-study');
+  study.hidden = !selectedProject.caseStudy;
+  if (selectedProject.caseStudy) study.href = selectedProject.caseStudy; else study.removeAttribute('href');
   const link = $('#gallery-live'); link.hidden = !validLink(selectedProject.url);
   if (!link.hidden) link.href = selectedProject.url; else link.removeAttribute('href');
   const media = projectMedia(), item = media[mediaIndex], container = $('#gallery-media');
