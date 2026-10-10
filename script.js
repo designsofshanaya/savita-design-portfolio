@@ -177,13 +177,10 @@ $('#settings').onsubmit = event => {
   content.linkedin = url;
   $('#edit-projects').querySelectorAll('input').forEach(input => { content.projects[Number(input.dataset.project)].title = input.value.trim() || 'Untitled project'; });
   try { localStorage.setItem(storageKey, JSON.stringify(content)); $('#save-status').textContent = 'Saved in this browser.'; }
-  catch { $('#save-status').textContent = 'Browser storage is unavailable. Export content to keep your changes.'; }
+  catch { $('#save-status').textContent = 'Browser storage is unavailable. Changes cannot be saved in this browser.'; }
   renderFilters(); renderProjects(); renderContact();
 };
-$('#export').onclick = () => {
-  const blob = new Blob([JSON.stringify(content, null, 2)], { type: 'application/json' }), url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'content.json'; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
-};
+
 
 const video = $('#character-video');
 let requestedDirection = 'right', direction = 'right';
