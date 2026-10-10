@@ -1,0 +1,12 @@
+{
+  "name": "savita-design-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node tests/portfolio.spec.cjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.3",
+    "playwright": "1.62.1"
+  }
+}
