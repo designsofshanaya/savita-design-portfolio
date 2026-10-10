@@ -20,10 +20,10 @@
       "description": "KeyMitra is a team project supporting roadside keymakers with digital customer and key records. As the UI/UX and app designer, I translated field observations into user flows, wireframes, and interface designs. Research highlighted compact workspaces, hard-to-access tools and key blanks, repetitive searching, and manual customer records. The prototype was tested with keymakers, and their feedback informed refinements. The concept also supports key-blank inventory; faster retrieval and less paper are intended benefits, not measured outcomes.",
       "image": "keymitra-preview.jpg",
       "images": [
-        "assets/keymitra-home-full.png",
-        "assets/keymitra-records-full.png",
         "assets/keymitra-welcome-full.png",
         "assets/keymitra-signin-full.png",
+        "assets/keymitra-home-full.png",
+        "assets/keymitra-records-full.png",
         "assets/keymitra-payments-full.png",
         "assets/keymitra-profile-full.png",
         "assets/keymitra-settings-full.png"
@@ -32,39 +32,15 @@
       "caseStudy": "keymitra.html",
       "summary": "UI/UX and app design for roadside keymakers. I translated field research into user flows, wireframes, and interfaces for customer and key records. Tested with keymakers; their feedback informed refinements.",
       "imageDescriptions": [
-        "Dashboard with search, New Record, Scan Key, Voice Note, Key Blank Company and recent records",
-        "Customer records with search, categories and New button",
         "KeyMitra welcome screen with bilingual Enter button",
         "Google and email sign-in options",
+        "Dashboard with search, New Record, Scan Key, Voice Note, Key Blank Company and recent records",
+        "Customer records with search, categories and New button",
         "Paid and unpaid customer payment entries",
         "Keymaker profile with record counts and settings",
         "Language, backup, notifications, offline storage, privacy and support settings"
       ],
       "screens": [
-        {
-          "type": "screen",
-          "label": "Home",
-          "src": "assets/keymitra-home-full.png",
-          "x": 0,
-          "y": 0,
-          "width": 738,
-          "height": 1600,
-          "sourceWidth": 738,
-          "sourceHeight": 1600,
-          "alt": "Dashboard with search, New Record, Scan Key, Voice Note, Key Blank Company and recent records"
-        },
-        {
-          "type": "screen",
-          "label": "Records",
-          "src": "assets/keymitra-records-full.png",
-          "x": 0,
-          "y": 0,
-          "width": 738,
-          "height": 1600,
-          "sourceWidth": 738,
-          "sourceHeight": 1600,
-          "alt": "Customer records with search, categories and New button"
-        },
         {
           "type": "screen",
           "label": "Welcome",
@@ -75,7 +51,8 @@
           "height": 1600,
           "sourceWidth": 738,
           "sourceHeight": 1600,
-          "alt": "KeyMitra welcome screen with bilingual Enter button"
+          "alt": "KeyMitra welcome screen with bilingual Enter button",
+          "explanation": "The opening screen introduces KeyMitra with its key-cutting symbol and a single Enter button labelled in English and Hindi."
         },
         {
           "type": "screen",
@@ -87,7 +64,34 @@
           "height": 1600,
           "sourceWidth": 738,
           "sourceHeight": 1600,
-          "alt": "Google and email sign-in options"
+          "alt": "Google and email sign-in options",
+          "explanation": "Google sign-in and email/password options sit together, with account creation and a privacy link below."
+        },
+        {
+          "type": "screen",
+          "label": "Home",
+          "src": "assets/keymitra-home-full.png",
+          "x": 0,
+          "y": 0,
+          "width": 738,
+          "height": 1600,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "Dashboard with search, New Record, Scan Key, Voice Note, Key Blank Company and recent records",
+          "explanation": "Four large shortcuts bring New Record, Scan Key, Voice Note and Key Blank Company together. Search and recent records help keymakers return to customer information."
+        },
+        {
+          "type": "screen",
+          "label": "Records",
+          "src": "assets/keymitra-records-full.png",
+          "x": 0,
+          "y": 0,
+          "width": 738,
+          "height": 1600,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "Customer records with search, categories and New button",
+          "explanation": "A search field and key-type filters organise customer records. The blue New button gives adding a record a clear place on the screen."
         },
         {
           "type": "screen",
@@ -99,7 +103,8 @@
           "height": 1600,
           "sourceWidth": 738,
           "sourceHeight": 1600,
-          "alt": "Paid and unpaid customer payment entries"
+          "alt": "Paid and unpaid customer payment entries",
+          "explanation": "Unpaid and Paid tabs separate payment status. Each visible entry pairs a customer name with a date and an unpaid label."
         },
         {
           "type": "screen",
@@ -111,7 +116,8 @@
           "height": 1600,
           "sourceWidth": 738,
           "sourceHeight": 1600,
-          "alt": "Keymaker profile with record counts and settings"
+          "alt": "Keymaker profile with record counts and settings",
+          "explanation": "The keymaker’s identity and record counts come first, followed by profile editing, language choices and backup settings."
         },
         {
           "type": "screen",
@@ -123,7 +129,8 @@
           "height": 1600,
           "sourceWidth": 738,
           "sourceHeight": 1600,
-          "alt": "Language, backup, notifications, offline storage, privacy and support settings"
+          "alt": "Language, backup, notifications, offline storage, privacy and support settings",
+          "explanation": "The remaining settings show sound, notifications, offline storage, privacy and support, followed by Sign Out."
         }
       ]
     },
@@ -148,5 +155,5 @@
       "caseStudy": "tomorrow-in-motion.html"
     }
   ],
-  "revision": 16
+  "revision": 17
 }
