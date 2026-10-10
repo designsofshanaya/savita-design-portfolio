@@ -2,44 +2,42 @@
   "linkedin": "https://www.linkedin.com/in/wahade-savita-472568376/",
   "projects": [
     {
-      "title": "KeyMitra — A Key to Everyday Ease",
-      "category": "Interaction",
-      "description": "UI/UX and app design for a DRM team project with around 30 Mumbai keymakers. Field research informed digital customer records and key-blank inventory. Qualitative usability testing informed refinement; measured outcomes are not supplied.",
-      "image": "keymitra-preview.jpg",
-      "images": ["keymitra-preview.jpg"],
-      "url": "https://pixel-perfect-display-5805.lovable.app/",
-      "slug": "keymitra",
-      "page": "keymitra.html"
-    },
-    {
       "title": "Stories Between the Letters",
       "category": "Graphics",
-      "description": "Three cinematic poster studies exploring type, colour, hierarchy and composition in Adobe Photoshop.",
+      "description": "I loved discovering how typography, colour, and composition could change the mood of a poster. Made in Adobe Photoshop, these three pieces explore cinematic stories through a visual language of their own.",
       "image": "work-58.webp",
-      "images": ["work-58.webp", "work-59.webp", "work-60.webp"],
-      "slug": "stories-between-the-letters",
-      "page": "stories-between-the-letters.html"
+      "images": [
+        "work-58.webp",
+        "work-59.webp",
+        "work-60.webp"
+      ]
     },
     {
-      "title": "Dear Zindagi — Student Film Introduction",
+      "title": "KeyMitra — A Key to Everyday Ease",
+      "category": "Interaction",
+      "description": "KeyMitra began with our DRM group project and conversations with around 30 keymakers in Mumbai. We combined primary and secondary research, asked “How might we?”, and explored an idea for keeping customer records. I took part in the interviews and research, and brought the customer-record concept to life as KeyMitra.",
+      "image": "keymitra-preview.jpg",
+      "images": [
+        "keymitra-preview.jpg"
+      ],
+      "url": "https://pixel-perfect-display-5805.lovable.app/"
+    },
+    {
+      "title": "Dear Zindagi — Life Through My Lens",
       "category": "Motion",
-      "description": "A teacher’s brief to shoot an introduction for a favourite film. Savita chose Dear Zindagi because it felt relatable and filmed this student introduction while learning photography and videography.",
+      "description": "I shot Dear Zindagi while learning photography and videography. I loved exploring how framing, light, and movement could turn an everyday moment into a story, then bringing those moments together in a film.",
       "image": "dear-zindagi-poster.jpg",
       "images": [],
-      "video": "dear-zindagi.mp4",
-      "slug": "dear-zindagi",
-      "page": "dear-zindagi.html"
+      "video": "dear-zindagi.mp4"
     },
     {
       "title": "Tomorrow, Dreamed in Motion",
       "category": "Motion",
-      "description": "An imagined-future motion study with visible source marks apswrites and imaginary_doodle_. The original-generation and editing contributions require confirmation.",
+      "description": "I made this video while experimenting with AI tools. I loved exploring how a prompt could become a moving image, trying different visual directions, and seeing an imagined future take shape on screen.",
       "image": "motion-poster.webp",
       "images": [],
-      "video": "future-in-motion.mp4",
-      "slug": "tomorrow-in-motion",
-      "page": "tomorrow-in-motion.html"
+      "video": "future-in-motion.mp4"
     }
   ],
-  "revision": 11
+  "revision": 10
 }
