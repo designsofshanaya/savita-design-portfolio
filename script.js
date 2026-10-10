@@ -182,46 +182,75 @@ $('#settings').onsubmit = event => {
 };
 
 
-const video = $('#character-video');
-let requestedDirection = 'right', direction = 'right';
-let requestedStrength = 0, strength = 0, seeking = false, frame = 0, lastTick = 0;
-const gazeTime = (side, amount) => side === 'left' ? 2.5 - amount * 1.25
-  : side === 'right' ? 2.5 + amount * 1.25
-  : side === 'up' ? 5 + amount * 1.05 : 7.5 + amount * 1.05;
-function animateGaze(now) {
-  frame = 0;
-  const dt = Math.min((now - (lastTick || now - 16)) / 1000, .05);
-  lastTick = now;
-  const changingDirection = direction !== requestedDirection;
-  const goal = changingDirection ? 0 : requestedStrength;
-  strength += (goal - strength) * (1 - Math.exp(-12 * dt));
-  if (changingDirection && strength < .025) { strength = 0; direction = requestedDirection; }
-  if (Math.abs(strength - goal) < .002) strength = goal;
-  const time = Math.max(0, Math.min(video.duration - .045, gazeTime(direction, strength)));
-  if (!seeking && video.readyState >= 2 && Number.isFinite(time) && Math.abs(video.currentTime - time) > .016) {
-    seeking = true; video.currentTime = time;
+// Continuous two-dimensional eye tracking on the original illustration.
+(() => {
+  const video = $('#character-video');
+  const ns = 'http://www.w3.org/2000/svg';
+  const node = (tag, attrs) => {
+    const el = document.createElementNS(ns, tag);
+    for (const [key, value] of Object.entries(attrs)) el.setAttribute(key, value);
+    return el;
+  };
+  const artwork = node('svg', {viewBox:'0 0 720 1280', preserveAspectRatio:'xMaxYMid meet', class:'cursor-characters', role:'img', 'aria-label':'A girl and three cats whose eyes follow your cursor in every direction'});
+  const background = node('image', {href:'gaze-poster.jpg', width:720, height:1280});
+  const defs = node('defs', {}); artwork.append(background, defs);
+  const specs = [
+    {x:310,y:247,rx:23,ry:17,angle:10,fill:'#e6c77e',iris:'#201711',r:8,travel:7},
+    {x:405,y:239,rx:24,ry:17,angle:-12,fill:'#e6c77e',iris:'#201711',r:8,travel:7},
+    {x:325,y:553,rx:32,ry:22,angle:0,fill:'#fff4df',iris:'#76503a',r:17,travel:9,human:true},
+    {x:465,y:546,rx:32,ry:22,angle:0,fill:'#fff4df',iris:'#76503a',r:17,travel:9,human:true},
+    {x:112,y:672,rx:23,ry:17,angle:9,fill:'#ebc66f',iris:'#15130f',r:8,travel:7},
+    {x:207,y:652,rx:24,ry:17,angle:-13,fill:'#ebc66f',iris:'#15130f',r:8,travel:7},
+    {x:507,y:790,rx:16,ry:16,angle:13,fill:'#e7d28d',iris:'#221b13',r:7,travel:5},
+    {x:591,y:815,rx:22,ry:16,angle:16,fill:'#e7d28d',iris:'#221b13',r:8,travel:6}
+  ];
+  const eyes = specs.map((eye, i) => {
+    const shape = {cx:eye.x,cy:eye.y,rx:eye.rx,ry:eye.ry,transform:`rotate(${eye.angle} ${eye.x} ${eye.y})`};
+    const clip = node('clipPath', {id:`cursor-eye-${i}`}); clip.append(node('ellipse', shape)); defs.append(clip);
+    const group = node('g', {'clip-path':`url(#cursor-eye-${i})`});
+    group.append(node('ellipse', {...shape, fill:eye.fill}));
+    const iris = node('g', {class:'tracking-iris'});
+    iris.append(node('ellipse', {cx:eye.x,cy:eye.y,rx:eye.r,ry:eye.human ? eye.r : eye.r*1.45,fill:eye.iris}));
+    if (eye.human) iris.append(node('circle', {cx:eye.x,cy:eye.y-1,r:9,fill:'#211711'}));
+    iris.append(node('circle', {cx:eye.x-3,cy:eye.y-6,r:eye.human ? 4 : 2.8,fill:'#fff9e9'}));
+    group.append(iris); artwork.append(group);
+    return {...eye, iris, xOffset:0, yOffset:0, targetX:0, targetY:0};
+  });
+  video.pause(); video.hidden = true; video.parentElement.append(artwork);
+  const mobile = matchMedia('(max-width:700px)');
+  const align = () => artwork.setAttribute('preserveAspectRatio', mobile.matches ? 'xMidYMax meet' : 'xMaxYMid meet');
+  align(); mobile.addEventListener('change', align);
+  let frame = 0, last = 0;
+  function tick(now) {
+    frame = 0;
+    const blend = 1 - Math.exp(-18 * Math.min((now - (last || now - 16))/1000, .05));
+    last = now; let moving = false;
+    for (const eye of eyes) {
+      eye.xOffset += (eye.targetX-eye.xOffset)*blend;
+      eye.yOffset += (eye.targetY-eye.yOffset)*blend;
+      eye.iris.setAttribute('transform', `translate(${eye.xOffset.toFixed(3)} ${eye.yOffset.toFixed(3)})`);
+      if (Math.abs(eye.targetX-eye.xOffset)+Math.abs(eye.targetY-eye.yOffset) > .02) moving = true;
+    }
+    if (moving) frame = requestAnimationFrame(tick); else last = 0;
   }
-  if (direction !== requestedDirection || Math.abs(strength - requestedStrength) > .001 || seeking) frame = requestAnimationFrame(animateGaze);
-  else lastTick = 0;
-}
-function wakeGaze() { if (!frame) frame = requestAnimationFrame(animateGaze); }
-video.addEventListener('seeked', () => { seeking = false; wakeGaze(); });
-video.addEventListener('loadeddata', () => { video.pause(); wakeGaze(); });
-window.addEventListener('pointermove', event => {
-  if (reducedMotion.matches || event.pointerType === 'touch') return;
-  const x = Math.max(-1, Math.min(1, event.clientX / innerWidth * 2 - 1));
-  const y = Math.max(-1, Math.min(1, event.clientY / innerHeight * 2 - 1));
-  const horizontal = Math.abs(x), vertical = Math.abs(y);
-  // Keep the current axis near diagonals so tiny pointer changes do not flip poses.
-  const wasHorizontal = requestedDirection === 'left' || requestedDirection === 'right';
-  const useHorizontal = wasHorizontal ? horizontal >= vertical - .14 : horizontal > vertical + .14;
-  requestedDirection = useHorizontal ? (x < 0 ? 'left' : 'right') : (y < 0 ? 'up' : 'down');
-  requestedStrength = Math.max(0, (Math.max(horizontal, vertical) - .14) / .86);
-  wakeGaze();
-});
-function resetGaze() { requestedStrength = 0; wakeGaze(); }
-document.documentElement.addEventListener('pointerleave', resetGaze);
-reducedMotion.addEventListener('change', resetGaze);
+  const wake = () => { if (!frame) frame = requestAnimationFrame(tick); };
+  window.addEventListener('pointermove', event => {
+    if (reducedMotion.matches || event.pointerType === 'touch' || document.hidden) return;
+    const matrix = artwork.getScreenCTM(); if (!matrix) return;
+    const point = new DOMPoint(event.clientX,event.clientY).matrixTransform(matrix.inverse());
+    for (const eye of eyes) {
+      const dx = point.x-eye.x, dy = point.y-eye.y;
+      const distance = Math.hypot(dx,dy);
+      const amount = eye.travel * Math.tanh(distance/180);
+      eye.targetX = distance ? dx/distance*amount : 0;
+      eye.targetY = distance ? dy/distance*amount*.7 : 0;
+    }
+    wake();
+  });
+  const reset = () => { eyes.forEach(eye => {eye.targetX=0; eye.targetY=0;}); wake(); };
+  document.documentElement.addEventListener('pointerleave', reset);
+  reducedMotion.addEventListener('change', reset);
+})();
 
 const line = $('#typewriter'), lineText = line?.textContent;
 if (line && !reducedMotion.matches) {
