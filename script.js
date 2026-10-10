@@ -178,8 +178,8 @@ function resetGaze() { requestedStrength = 0; wakeGaze(); }
 document.documentElement.addEventListener('pointerleave', resetGaze);
 reducedMotion.addEventListener('change', resetGaze);
 
-const line = $('#typewriter'), lineText = line.textContent;
-if (!reducedMotion.matches) {
+const line = $('#typewriter'), lineText = line?.textContent;
+if (line && !reducedMotion.matches) {
   line.textContent = ''; line.classList.add('typing');
   let count = 0;
   const start = setTimeout(() => {

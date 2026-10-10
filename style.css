@@ -279,3 +279,18 @@ dialog{background:#fffef9}.icon-button:hover{background:#fff2c4}.primary-button:
 /* Original product artwork retains its colours; the poster fills its card. */
 .tool-chips>.tool-adobephotoshop{background:#fff6d8;border-color:#ebdba34d}.tool-logo img{border-radius:8px}.tool-chips>.tool-openai{background:#10a37f}.tool-openai img{filter:brightness(0) invert(1)}
 .project[data-category='Graphics'] .project-image img{object-fit:cover;object-position:center 38%}
+
+/* Introductory copy supplied in Savita's screenshot; retain the original cat stage. */
+.hero .screenshot-copy { width:49%; align-self:start; padding:75px 0 0; }
+.hero .screenshot-copy .hero-eyebrow { font:600 10px/1.7 Manrope,Arial,sans-serif; letter-spacing:.12em; margin-bottom:20px; }
+.hero .screenshot-copy h1 { font:400 clamp(44px,4.8vw,76px)/1.08 Georgia,serif; letter-spacing:-.055em; margin:0 0 24px; }
+.hero .screenshot-copy h1 em { font-size:1em; font-style:italic; color:#876120; letter-spacing:inherit; }
+.hero-description { font:400 15px/1.8 Manrope,Arial,sans-serif; max-width:500px; }
+.hero-description strong { font-weight:600; }
+.hero-actions { display:flex; align-items:center; gap:24px; margin-top:24px; }
+.hero .hero-actions .primary-button { margin-top:0; }
+.hero-resume { font:600 14px/1.5 Manrope,Arial,sans-serif; text-decoration:underline; text-underline-offset:6px; }
+.hero-availability { font:400 12px/1.6 Manrope,Arial,sans-serif; margin-top:28px; }
+.hero-availability span { color:#427647; margin-right:8px; }
+@media(max-width:1100px) { .hero .screenshot-copy { padding-top:45px; width:52%; } .hero .screenshot-copy h1 { font-size:clamp(40px,5vw,58px); } }
+@media(max-width:700px) { .hero.wrap { min-height:1000px; } .hero .screenshot-copy { padding-top:0; width:100%; } .hero .screenshot-copy h1 { font-size:clamp(36px,9vw,60px); } .hero-description { font-size:13px; max-width:95%; } .hero .screenshot-copy .hero-eyebrow { font-size:8px; } .hero-actions { gap:20px; } .hero-availability { font-size:11px; } }
