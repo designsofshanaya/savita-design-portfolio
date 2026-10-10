@@ -443,3 +443,29 @@ document.querySelectorAll('.desk-note').forEach(note => {
     if (directions[event.key]) { event.preventDefault(); place(offsetX + directions[event.key][0], offsetY + directions[event.key][1]); }
   });
 });
+
+// The kitten invites visitors to a résumé preview, with native keyboard dismissal.
+(() => {
+  const trigger = document.getElementById('open-resume');
+  const dialog = document.getElementById('resume-viewer');
+  if (trigger && dialog) {
+    trigger.addEventListener('click', () => dialog.showModal());
+    document.getElementById('close-resume').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('close', () => trigger.focus());
+    dialog.addEventListener('click', event => {
+      if (event.target !== dialog) return;
+      const rect = dialog.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+    });
+  }
+  const kitten = document.querySelector('.resume-kitten');
+  if (!kitten) return;
+  let inView = false;
+  const syncKitten = () => {
+    if (inView && !reducedMotion.matches && !document.hidden) kitten.play().catch(() => {});
+    else kitten.pause();
+  };
+  new IntersectionObserver(entries => { inView = entries[0].isIntersecting; syncKitten(); }).observe(kitten);
+  reducedMotion.addEventListener('change', syncKitten);
+  document.addEventListener('visibilitychange', syncKitten);
+})();
