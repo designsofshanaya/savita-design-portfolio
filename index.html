@@ -61,64 +61,14 @@
       </div>
     </header>
     <main id="main">
-      <section id="home" class="hero wrap" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow">SAVITA WAHADE · B.DES STUDENT · MUMBAI</p>
-          <h1 id="hero-title">
-            A curious mind.<br />A <em>maker at heart.</em>
-          </h1>
-          <p class="hero-description">
-            I explore
-            <strong>product, interaction, and graphic design</strong>—turning
-            observations into ideas, and ideas into things you can see, touch,
-            and use.
-          </p>
-          <div class="hero-actions">
-            <a class="button" href="#work"
-              >Explore my work <span aria-hidden="true">↘</span></a
-            ><a class="text-link" href="resume.html"
-              >Résumé <span aria-hidden="true">↗</span></a
-            >
-          </div>
-          <p class="availability">
-            Seeking multidisciplinary design internships
-          </p>
-        </div>
+      <section id="home" class="cat-intro" aria-label="Savita’s interactive human and cats illustration">
         <div class="hero-character">
           <div class="character-window">
-            <img
-              id="character-poster"
-              src="gaze-poster.jpg"
-              alt="Illustration of a girl with three cats, Savita’s playful portfolio character"
-              width="600"
-              height="800"
-              fetchpriority="high"
-            /><video
-              id="character-video"
-              muted
-              playsinline
-              preload="none"
-              poster="gaze-poster.jpg"
-              aria-label="Portfolio character looking in the direction of your pointer"
-              hidden
-            ></video>
-          </div>
-          <span class="character-note" aria-hidden="true"
-            >Products. Pixels.<br />Possibilities.</span
-          >
-          <div class="character-controls">
-            <span class="character-caption"
-              >A little playful.<br />A lot of curiosity.</span
-            ><button
-              id="motion-toggle"
-              class="quiet-button"
-              type="button"
-              aria-pressed="false"
-            >
-              Enable character motion
-            </button>
+            <img id="character-poster" src="gaze-poster.jpg" alt="Savita’s illustrated human character with three cats" fetchpriority="high" />
+            <video id="character-video" muted playsinline preload="auto" poster="gaze-poster.jpg" aria-label="Human and cats following your mouse left, right, up and down" hidden></video>
           </div>
         </div>
+        <div class="intro-controls"><span>Move your mouse. Left, right, up, down.</span><button id="motion-toggle" class="quiet-button" type="button" aria-pressed="true">Pause character motion</button><a href="#work" aria-label="Explore selected work">Explore my work ↓</a></div>
       </section>
       <section id="work" class="work wrap" aria-labelledby="work-title">
         <div class="section-heading">
