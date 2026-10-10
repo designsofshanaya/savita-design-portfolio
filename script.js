@@ -371,3 +371,67 @@ if (resumeKitten) {
   reducedMotion.addEventListener('change',hide);
   finePointer.addEventListener('change',hide);
 })();
+
+// Fine gold dust briefly sparkles in the wake of a moving pointer.
+(() => {
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
+  const canvas=document.createElement('canvas');
+  canvas.className='cursor-glitter'; canvas.setAttribute('aria-hidden','true');
+  document.body.append(canvas);
+  const ctx=canvas.getContext('2d'); if(!ctx)return;
+  let particles=[],frame=0,lastTime=0,lastPoint=null;
+  const enabled=()=>fine.matches&&!reducedMotion.matches;
+  function resize(){
+    const dpr=Math.min(devicePixelRatio||1,2);
+    canvas.width=Math.round(innerWidth*dpr);canvas.height=Math.round(innerHeight*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function clear(){
+    if(frame)cancelAnimationFrame(frame);
+    particles=[];frame=lastTime=0;lastPoint=null;
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+  }
+  function draw(now){
+    frame=0;
+    const dt=Math.min((now-(lastTime||now-16))/1000,.05);lastTime=now;
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    particles=particles.filter(p=>{p.life-=dt;return p.life>0;});
+    for(const p of particles){
+      p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=12*dt;
+      const fade=p.life/p.max;
+      const alpha=fade*.8*(.65+.35*Math.sin(p.life*24+p.phase));
+      ctx.fillStyle=`rgba(188,143,44,${alpha})`;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.size*fade,0,Math.PI*2);ctx.fill();
+      if(p.star){
+        const size=p.size*3*fade;
+        ctx.strokeStyle=`rgba(224,179,67,${alpha})`;ctx.lineWidth=.8;
+        ctx.beginPath();ctx.moveTo(p.x-size,p.y);ctx.lineTo(p.x+size,p.y);
+        ctx.moveTo(p.x,p.y-size);ctx.lineTo(p.x,p.y+size);ctx.stroke();
+      }
+    }
+    if(particles.length)frame=requestAnimationFrame(draw);else lastTime=0;
+  }
+  window.addEventListener('pointermove',e=>{
+    if(!enabled()||e.pointerType==='touch'||document.querySelector('dialog[open]')){clear();return;}
+    const point={x:e.clientX,y:e.clientY};
+    const previous=lastPoint||point;lastPoint=point;
+    const distance=Math.hypot(point.x-previous.x,point.y-previous.y);
+    if(distance<2)return;
+    const count=Math.min(16,Math.ceil(distance/7));
+    for(let i=0;i<count;i++){
+      const t=(i+1)/count,life=.45+Math.random()*.55;
+      particles.push({x:previous.x+(point.x-previous.x)*t+(Math.random()-.5)*18,
+        y:previous.y+(point.y-previous.y)*t+(Math.random()-.5)*18,
+        vx:(Math.random()-.5)*22,vy:(Math.random()-.5)*22,
+        life,max:life,size:.6+Math.random()*1.2,phase:Math.random()*6,star:Math.random()<.13});
+    }
+    if(particles.length>180)particles.splice(0,particles.length-180);
+    if(!frame)frame=requestAnimationFrame(draw);
+  },{passive:true});
+  window.addEventListener('resize',()=>{clear();resize();},{passive:true});
+  document.documentElement.addEventListener('pointerleave',clear);
+  window.addEventListener('blur',clear);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)clear();});
+  reducedMotion.addEventListener('change',clear);fine.addEventListener('change',clear);
+  resize();
+})();
