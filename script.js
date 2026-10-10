@@ -335,3 +335,39 @@ if (resumeKitten) {
   kittenVisibility.observe(resumeKitten);
   reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) resumeKitten.pause(); });
 }
+
+// A soft cursor spotlight reveals the studio grid, inspired by the reference.
+(() => {
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const layer = document.createElement('div');
+  layer.className = 'cursor-grid';
+  layer.setAttribute('aria-hidden', 'true');
+  document.body.append(layer);
+  let targetX=0, targetY=0, x=0, y=0, frame=0, initialized=false;
+  const enabled = () => finePointer.matches && !reducedMotion.matches;
+  function draw() {
+    frame=0;
+    x += (targetX-x)*.22;
+    y += (targetY-y)*.22;
+    layer.style.setProperty('--cursor-x', `${x}px`);
+    layer.style.setProperty('--cursor-y', `${y}px`);
+    if (Math.abs(targetX-x)+Math.abs(targetY-y)>.4) frame=requestAnimationFrame(draw);
+  }
+  function hide() {
+    layer.classList.remove('is-visible');
+    if(frame)cancelAnimationFrame(frame);
+    frame=0; initialized=false;
+  }
+  window.addEventListener('pointermove', event => {
+    if (!enabled() || event.pointerType==='touch' || document.querySelector('dialog[open]')) {hide();return;}
+    targetX=event.clientX;targetY=event.clientY;
+    if(!initialized){x=targetX;y=targetY;initialized=true;}
+    layer.classList.add('is-visible');
+    if(!frame)frame=requestAnimationFrame(draw);
+  },{passive:true});
+  document.documentElement.addEventListener('pointerleave',hide);
+  window.addEventListener('blur',hide);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)hide();});
+  reducedMotion.addEventListener('change',hide);
+  finePointer.addEventListener('change',hide);
+})();
