@@ -399,12 +399,12 @@ if (resumeKitten) {
     for(const p of particles){
       p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=12*dt;
       const fade=p.life/p.max;
-      const alpha=fade*.8*(.65+.35*Math.sin(p.life*24+p.phase));
-      ctx.fillStyle=`rgba(188,143,44,${alpha})`;
+      const alpha=fade*.95*(.8+.2*Math.sin(p.life*24+p.phase));
+      ctx.fillStyle=`rgba(174,117,20,${alpha})`;
       ctx.beginPath();ctx.arc(p.x,p.y,p.size*fade,0,Math.PI*2);ctx.fill();
       if(p.star){
         const size=p.size*3*fade;
-        ctx.strokeStyle=`rgba(224,179,67,${alpha})`;ctx.lineWidth=.8;
+        ctx.strokeStyle=`rgba(207,143,29,${alpha})`;ctx.lineWidth=1.2;
         ctx.beginPath();ctx.moveTo(p.x-size,p.y);ctx.lineTo(p.x+size,p.y);
         ctx.moveTo(p.x,p.y-size);ctx.lineTo(p.x,p.y+size);ctx.stroke();
       }
@@ -417,15 +417,15 @@ if (resumeKitten) {
     const previous=lastPoint||point;lastPoint=point;
     const distance=Math.hypot(point.x-previous.x,point.y-previous.y);
     if(distance<2)return;
-    const count=Math.min(16,Math.ceil(distance/7));
+    const count=Math.min(24,Math.ceil(distance/4));
     for(let i=0;i<count;i++){
-      const t=(i+1)/count,life=.45+Math.random()*.55;
+      const t=(i+1)/count,life=.6+Math.random()*.65;
       particles.push({x:previous.x+(point.x-previous.x)*t+(Math.random()-.5)*18,
         y:previous.y+(point.y-previous.y)*t+(Math.random()-.5)*18,
         vx:(Math.random()-.5)*22,vy:(Math.random()-.5)*22,
-        life,max:life,size:.6+Math.random()*1.2,phase:Math.random()*6,star:Math.random()<.13});
+        life,max:life,size:1.1+Math.random()*1.8,phase:Math.random()*6,star:Math.random()<.24});
     }
-    if(particles.length>180)particles.splice(0,particles.length-180);
+    if(particles.length>240)particles.splice(0,particles.length-240);
     if(!frame)frame=requestAnimationFrame(draw);
   },{passive:true});
   window.addEventListener('resize',()=>{clear();resize();},{passive:true});
