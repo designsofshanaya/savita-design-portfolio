@@ -15,20 +15,22 @@
     {
       "title": "KeyMitra — A Key to Everyday Ease",
       "category": "Interaction",
-      "description": "KeyMitra began with our DRM group project and conversations with around 30 keymakers in Mumbai. We combined primary and secondary research, asked “How might we?”, and explored an idea for keeping customer records. I took part in the interviews and research, and brought the customer-record concept to life as KeyMitra.",
+      "description": "KeyMitra is a team project supporting roadside keymakers with digital customer and key records. As the UI/UX and app designer, I translated field observations into user flows, wireframes, and interface designs. Research highlighted compact workspaces, hard-to-access tools and key blanks, repetitive searching, and manual customer records. The prototype was tested with keymakers, and their feedback informed refinements. The concept also supports key-blank inventory; faster retrieval and less paper are intended benefits, not measured outcomes.",
       "image": "keymitra-preview.jpg",
       "images": [
         "keymitra-preview.jpg"
       ],
-      "url": "https://pixel-perfect-display-5805.lovable.app/"
+      "url": "https://pixel-perfect-display-5805.lovable.app/",
+      "caseStudy": "keymitra.html"
     },
     {
       "title": "Dear Zindagi — Life Through My Lens",
       "category": "Motion",
-      "description": "I shot Dear Zindagi while learning photography and videography. I loved exploring how framing, light, and movement could turn an everyday moment into a story, then bringing those moments together in a film.",
+      "description": "Our teacher asked us to shoot an introduction for our favourite movie. I chose Dear Zindagi because it felt personally relatable, and I filmed this introduction while learning photography and videography. This is a student-shot study inspired by the film, exploring framing, light, and everyday moments.",
       "image": "dear-zindagi-poster.jpg",
       "images": [],
-      "video": "dear-zindagi.mp4"
+      "video": "dear-zindagi.mp4",
+      "caseStudy": "dear-zindagi.html"
     },
     {
       "title": "Tomorrow, Dreamed in Motion",
@@ -39,5 +41,5 @@
       "video": "future-in-motion.mp4"
     }
   ],
-  "revision": 10
+  "revision": 12
 }
