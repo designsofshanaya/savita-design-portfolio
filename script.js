@@ -135,7 +135,7 @@ function renderGallery() {
   if (item.type !== 'screen') element.src = item.src;
   if (item.type === 'video') { element.controls = true; element.playsInline = true; element.preload = 'metadata'; element.poster = selectedProject.image; }
   else if (item.type !== 'screen') element.alt = selectedProject.imageDescriptions?.[mediaIndex] || `${selectedProject.title}, image ${mediaIndex + 1}`;
-  container.append(element);
+  if (item.type === 'screen') { const phone = document.createElement('div'); phone.className = 'phone-preview gallery-phone'; phone.append(element); container.append(phone); } else container.append(element);
   $('#gallery-counter').textContent = item.type === 'screen' ? `${mediaIndex + 1} / ${media.length} — ${item.label}` : item.type === 'video' ? 'Film · Play to explore' : `${mediaIndex + 1} / ${media.length}${selectedProject.imageDescriptions ? ' — ' + selectedProject.imageDescriptions[mediaIndex] : ''}`;
   $('#previous').disabled = $('#next').disabled = media.length < 2;
 }
