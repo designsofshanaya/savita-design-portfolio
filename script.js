@@ -90,6 +90,7 @@ function projectMedia() {
   return (selectedProject.images?.length ? selectedProject.images : [selectedProject.image]).map(src => ({ type:'image', src }));
 }
 function renderGallery() {
+  gallery.dataset.category = selectedProject.category;
   $('#gallery-title').textContent = selectedProject.title;
   $('#gallery-category').textContent = selectedProject.category;
   $('#gallery-description').textContent = selectedProject.description;
