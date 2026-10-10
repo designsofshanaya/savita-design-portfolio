@@ -99,7 +99,7 @@ function renderProjects(category = 'All') {
     const categoryLabel = document.createElement('p'); categoryLabel.textContent = project.category;
     const arrow = document.createElement('span'); arrow.className = 'project-arrow'; arrow.textContent = '↗'; arrow.setAttribute('aria-hidden','true');
     const action = document.createElement(isApp ? 'button' : 'span'); action.className = 'project-action';
-    if (isApp) { action.type = 'button'; action.onclick = showGallery; } action.textContent = project.category === 'Graphics' ? 'View all three posters ↗' : project.category === 'Interaction' ? 'View app screenshots ↗' : 'Watch the film ↗';
+    if (isApp) { action.type = 'button'; action.onclick = showGallery; } action.textContent = project.category === 'Graphics' ? 'View all three posters ↗' : project.category === 'Interaction' ? 'View app ↗' : 'Watch the film ↗';
     text.append(title, categoryLabel, action); caption.append(text, arrow); button.append(frame, caption);
     if (!isApp) button.onclick = showGallery;
     const note = document.createElement('p'); note.className = 'project-context';
