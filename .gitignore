@@ -1,0 +1,4 @@
+.superdesign/
+node_modules/
+.review/
+.DS_Store
