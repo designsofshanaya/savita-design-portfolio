@@ -29,6 +29,128 @@
       "imageDescriptions": [
         "KeyMitra welcome screen with bilingual English and Hindi entry button",
         "KeyMitra sign-in screen with Google, email and password options"
+      ],
+      "screens": [
+        {
+          "type": "screen",
+          "label": "Home",
+          "src": "assets/keymitra-collage-3.png",
+          "x": 70,
+          "y": 811,
+          "width": 292,
+          "height": 634,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "KeyMitra home dashboard with New Record, Scan Key, Voice Note, Key Blank Company and recent customer records"
+        },
+        {
+          "type": "screen",
+          "label": "Records",
+          "src": "assets/keymitra-collage-3.png",
+          "x": 375,
+          "y": 811,
+          "width": 293,
+          "height": 634,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "Customer records list with search, category filters and a New button"
+        },
+        {
+          "type": "screen",
+          "label": "Key photo",
+          "src": "assets/keymitra-collage-2.png",
+          "x": 62,
+          "y": 68,
+          "width": 293,
+          "height": 633,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "Camera interface for photographing a key, with a voice option and photo capture button"
+        },
+        {
+          "type": "screen",
+          "label": "Payments",
+          "src": "assets/keymitra-collage-2.png",
+          "x": 367,
+          "y": 68,
+          "width": 293,
+          "height": 633,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "Payments screen with paid and unpaid tabs and customer entries"
+        },
+        {
+          "type": "screen",
+          "label": "Profile",
+          "src": "assets/keymitra-collage-1.png",
+          "x": 130,
+          "y": 286,
+          "width": 274,
+          "height": 592,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "Keymaker profile, record counts, language selector and backup settings"
+        },
+        {
+          "type": "screen",
+          "label": "Settings",
+          "src": "assets/keymitra-collage-1.png",
+          "x": 415,
+          "y": 286,
+          "width": 274,
+          "height": 592,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "Settings for languages, Google Drive backup, sound, notifications, offline storage, privacy and support"
+        },
+        {
+          "type": "screen",
+          "label": "Key blanks",
+          "src": "assets/keymitra-collage-1.png",
+          "x": 130,
+          "y": 890,
+          "width": 274,
+          "height": 592,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "Searchable key blank brand inventory with model counts"
+        },
+        {
+          "type": "screen",
+          "label": "Voice notes",
+          "src": "assets/keymitra-collage-1.png",
+          "x": 415,
+          "y": 890,
+          "width": 274,
+          "height": 592,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "Voice-note capture with optional customer photo, recording control and saved notes"
+        },
+        {
+          "type": "screen",
+          "label": "Welcome",
+          "src": "assets/keymitra-collage-3.png",
+          "x": 70,
+          "y": 165,
+          "width": 292,
+          "height": 633,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "Bilingual KeyMitra welcome screen"
+        },
+        {
+          "type": "screen",
+          "label": "Sign in",
+          "src": "assets/keymitra-collage-3.png",
+          "x": 375,
+          "y": 165,
+          "width": 293,
+          "height": 633,
+          "sourceWidth": 738,
+          "sourceHeight": 1600,
+          "alt": "KeyMitra sign-in screen with Google and email options"
+        }
       ]
     },
     {
@@ -52,5 +174,5 @@
       "caseStudy": "tomorrow-in-motion.html"
     }
   ],
-  "revision": 14
+  "revision": 15
 }
