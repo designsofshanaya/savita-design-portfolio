@@ -32,13 +32,30 @@ document.addEventListener('keydown', event => { if (event.key === 'Escape') clos
 
 function renderProjects(category = 'All') {
   const container = $('#projects'); container.replaceChildren();
-  const projects = content.projects.filter(p => category === 'All' || p.category === category);
+  const projects = content.projects;
   projects.forEach(project => {
     const button = document.createElement('button'); button.className = 'project'; button.dataset.category = project.category;
     button.setAttribute('aria-label', `View ${project.title}`);
     const frame = document.createElement('div'); frame.className = 'project-image';
-    const image = document.createElement('img'); image.src = project.image; image.alt = project.title; image.loading = 'lazy'; image.decoding = 'async';
-    frame.append(image);
+    if (project.category === 'Graphics') {
+      frame.classList.add('poster-set');
+      const labels = ['The Lord of the Rings — gold type and a ring of script', 'Inception — title extended into a road', 'Inception — repeated type forming a perspective tunnel'];
+      project.images.forEach((src, i) => {
+        const piece = document.createElement('div'); piece.className = 'poster-piece';
+        const image = document.createElement('img'); image.src = src; image.alt = labels[i]; image.loading = 'lazy';
+        const label = document.createElement('span'); label.className = 'poster-label'; label.textContent = labels[i];
+        piece.append(image, label); frame.append(piece);
+      });
+    } else if (project.category === 'Interaction') {
+      frame.classList.add('phone-set');
+      ['assets/keymitra-welcome.png', 'assets/keymitra-signin.png'].forEach((src, i) => {
+        const phone = document.createElement('div'); phone.className = 'phone-preview';
+        const image = document.createElement('img'); image.src = src; image.alt = i === 0 ? 'KeyMitra bilingual welcome screen inside a phone frame' : 'KeyMitra Google and email sign-in screen inside a phone frame'; image.loading = 'lazy';
+        phone.append(image); frame.append(phone);
+      });
+    } else {
+      const image = document.createElement('img'); image.src = project.image; image.alt = project.title; image.loading = 'lazy'; image.decoding = 'async'; frame.append(image);
+    }
     if (project.video) {
       const preview = document.createElement('video'); preview.className = 'project-preview';
       preview.muted = true; preview.loop = true; preview.playsInline = true; preview.preload = 'none'; preview.poster = project.image;
@@ -55,16 +72,16 @@ function renderProjects(category = 'All') {
     const title = document.createElement('h3'); title.textContent = project.title;
     const categoryLabel = document.createElement('p'); categoryLabel.textContent = project.category;
     const arrow = document.createElement('span'); arrow.className = 'project-arrow'; arrow.textContent = '↗'; arrow.setAttribute('aria-hidden','true');
-    text.append(title, categoryLabel); caption.append(text, arrow); button.append(frame, caption);
+    const action = document.createElement('span'); action.className = 'project-action'; action.textContent = project.category === 'Graphics' ? 'View all three posters ↗' : project.category === 'Interaction' ? 'Explore KeyMitra ↗' : 'Watch the film ↗';
+    text.append(title, categoryLabel, action); caption.append(text, arrow); button.append(frame, caption);
     button.onclick = () => { selectedProject = project; mediaIndex = 0; renderGallery(); openDialog(gallery); };
     const note = document.createElement('p'); note.className = 'project-context';
-    const contexts = { Graphics: 'Playing with type, colour & Adobe Photoshop.', Interaction: 'An app idea that grew out of design research.' };
-    note.textContent = contexts[project.category] || (project.video?.includes('dear-zindagi') ? 'Finding stories through photography & videography.' : 'Turning imagination into motion with AI tools.');
+    note.textContent = project.summary || project.description;
     text.append(note);
     container.append(button);
     observeScrollReveal(button, projects.indexOf(project) % 2 * 90);
   });
-  $('#project-status').textContent = `${projects.length} projects shown${category === 'All' ? '' : ` in ${category}`}.`;
+  $('#project-status').textContent = `${projects.length} projects shown. All work remains visible.`;
 }
 function renderFilters() {
   const filters = $('.filters'); filters.replaceChildren();
@@ -72,7 +89,9 @@ function renderFilters() {
     const button = document.createElement('button'); button.textContent = category; button.setAttribute('aria-pressed', String(category === 'All'));
     button.onclick = () => {
       filters.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
-      renderProjects(category);
+      const target = category === 'All' ? $('#work') : [...document.querySelectorAll('.project')].find(p => p.dataset.category === category);
+      target?.scrollIntoView({behavior: reducedMotion.matches ? 'instant' : 'smooth', block:'center'});
+      $('#project-status').textContent = `Jumped to ${category}. All four projects remain visible.`;
     };
     filters.append(button);
   });
