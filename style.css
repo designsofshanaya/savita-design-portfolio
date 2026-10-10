@@ -1302,3 +1302,48 @@ em {
 .intro-controls > * { background: #fffdf7e8; border-radius: 999px; padding: 8px 14px; }
 .cursor-glitter { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
 @media(max-width:700px) { .cat-intro { height: calc(100svh - 77px); } .intro-controls { flex-wrap: wrap; justify-content: center; } .intro-controls > span { display:none; } }
+
+/* Opening composition restored from Savita's screen recording. */
+.recording-home .site-header { position:absolute; inset:0 0 auto; background:transparent; border:0; z-index:10; }
+.recording-home .header-inner { min-height:78px; }
+.recording-home .logo { font-size:20px; }
+.recording-home .menu-toggle { display:none !important; }
+.recording-home .site-nav { position:fixed; top:auto; bottom:20px; left:50%; transform:translateX(-50%); display:flex!important; flex-direction:row; width:max-content; max-width:calc(100vw - 24px); gap:4px; padding:7px; background:#fffdf7f2; border:1px solid #29251f18; border-radius:999px; box-shadow:0 8px 28px #29251f16; }
+.recording-home .site-nav a { padding:10px 18px; font-size:11px; white-space:nowrap; }
+.recording-home .site-nav .nav-contact { background:none; color:var(--ink); }
+.recording-home #lofi-toggle { position:fixed; right:5.3vw; top:20px; z-index:11; background:#fffdf7; border-radius:999px; padding:8px 14px; font-size:11px; }
+.recording-intro { position:relative; isolation:isolate; height:100svh; min-height:650px; background:linear-gradient(90deg,#f3d57d,#eebb5b 65%); overflow:hidden; }
+.recording-intro .hero-character { position:absolute; inset:0; width:100%; height:100%; margin:0; }
+.recording-intro .character-window { height:100%; width:100%; aspect-ratio:auto; border:0; border-radius:0; background:#eebb5b; }
+.recording-intro .character-window img,.recording-intro .character-window video { width:100%; height:100%; object-fit:contain; object-position:right center; }
+.recording-intro [hidden] { display:none!important; }
+.recording-intro:after { content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(90deg,#f5d786 0%,#f5d786cc 28%,#f5d78600 70%); }
+.recording-copy { position:relative; z-index:2; padding:0; margin-left:5.3vw; top:22%; width:45%; }
+.recording-copy h1 { font:400 clamp(80px,9.5vw,150px)/.88 Georgia,serif; letter-spacing:-.075em; margin:0 0 24px; }
+.recording-copy .identity { font:500 14px/1.6 Space,Arial,sans-serif; margin:0 0 20px; }
+.recording-copy .type-line { font-size:12px; line-height:1.8; max-width:245px; margin:0 0 24px; }
+.recording-copy .button { font-size:12px; min-height:40px; padding:9px 19px; }
+.desk-notes { display:flex; gap:15px; margin-top:22px; }
+.desk-note { position:relative; display:flex; flex-direction:column; align-items:start; gap:9px; text-align:left; width:145px; min-height:140px; padding:20px 15px 14px; border:0; background:#ffedac; color:#302b22; box-shadow:2px 7px 13px #28252b15; cursor:grab; touch-action:none; user-select:none; transform:translate(var(--note-x,0px),var(--note-y,0px)) rotate(var(--note-angle,-5deg)); }
+.desk-note:active { cursor:grabbing; }
+.note-two { --note-angle:5deg; background:#fff7d9; }
+.desk-note>span:not(.note-pin) { font:italic 22px/1.15 Georgia,serif; letter-spacing:-.035em; }
+.desk-note small { font:500 7px/1.5 Manrope,Arial,sans-serif; letter-spacing:.04em; }
+.desk-note small:last-child { letter-spacing:0; }
+.note-pin { position:absolute; top:0; left:50%; height:25px; width:20px; background:#d6b55780; transform:translate(-50%,-50%) rotate(15deg); }
+.recording-motion { position:absolute; z-index:3; bottom:22px; right:5.3vw; background:#fffdf7dc; font-size:9px; }
+@media(max-width:700px) {
+ .recording-intro { min-height:800px; height:100svh; }
+ .recording-copy { top:100px; width:90%; }
+ .recording-copy h1 { font-size:clamp(66px,19vw,100px); }
+ .recording-copy .identity { font-size:12px; margin-bottom:12px; }
+ .recording-copy .type-line { margin-bottom:14px; }
+ .recording-intro .character-window img,.recording-intro .character-window video { object-position:right bottom; height:65%; position:absolute; bottom:0; }
+ .recording-intro:after { background:linear-gradient(180deg,#f5d786 0%,#f5d786b0 38%,transparent 70%); }
+ .desk-notes { gap:10px; margin-top:18px; }
+ .desk-note { width:120px; min-height:120px; padding:15px 12px; }
+ .desk-note>span:not(.note-pin) { font-size:18px; }
+ .recording-home .site-nav a { font-size:10px; padding:9px 10px; }
+ .recording-home .site-nav { bottom:12px; }
+ .recording-motion { bottom:67px; right:12px; }
+}
