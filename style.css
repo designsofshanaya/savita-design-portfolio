@@ -378,3 +378,6 @@ dialog{background:#fffef9}.icon-button:hover{background:#fff2c4}.primary-button:
 .resume-footer .resume-cta-group { flex-direction:row; flex-wrap:nowrap; align-items:center; gap:10px; }
 .work-heading h2 { font-family:'Space Grotesk',Manrope,Arial,sans-serif; font-weight:500; }
 @media(max-width:360px) { .resume-footer { gap:8px; } .resume-footer .resume-kitten { width:80px; } .resume-footer #open-resume { padding:13px 15px; } }
+/* Center the footer words between the full-width divider lines. */
+.studio-ticker { text-align:center; }
+@media(max-width:700px) { .studio-ticker { white-space:normal; text-wrap:balance; word-spacing:6px; line-height:2.2; } }
