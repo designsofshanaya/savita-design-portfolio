@@ -30,6 +30,17 @@ menu.onclick = () => {
 $('#navigation').querySelectorAll('a').forEach(a => a.onclick = closeMenu);
 document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
 
+function makeAppScreen(screen) {
+  const view = document.createElement('div'); view.className = 'app-screen';
+  view.setAttribute('role', 'img'); view.setAttribute('aria-label', screen.alt);
+  view.style.aspectRatio = `${screen.width} / ${screen.height}`;
+  const image = document.createElement('img'); image.src = screen.src; image.alt = ''; image.setAttribute('aria-hidden', 'true');
+  image.style.setProperty('width', `${screen.sourceWidth / screen.width * 100}%`, 'important');
+  image.style.setProperty('height', `${screen.sourceHeight / screen.height * 100}%`, 'important');
+  image.style.left = `${-screen.x / screen.width * 100}%`;
+  image.style.top = `${-screen.y / screen.height * 100}%`;
+  view.append(image); return view;
+}
 function renderProjects(category = 'All') {
   const container = $('#projects'); container.replaceChildren();
   const projects = content.projects;
@@ -48,10 +59,9 @@ function renderProjects(category = 'All') {
       });
     } else if (project.category === 'Interaction') {
       frame.classList.add('phone-set');
-      ['assets/keymitra-welcome.png', 'assets/keymitra-signin.png'].forEach((src, i) => {
+      project.screens.slice(0, 2).forEach(screen => {
         const phone = document.createElement('div'); phone.className = 'phone-preview';
-        const image = document.createElement('img'); image.src = src; image.alt = i === 0 ? 'KeyMitra bilingual welcome screen inside a phone frame' : 'KeyMitra Google and email sign-in screen inside a phone frame'; image.loading = 'lazy';
-        phone.append(image); frame.append(phone);
+        phone.append(makeAppScreen(screen)); frame.append(phone);
       });
     } else {
       const image = document.createElement('img'); image.src = project.image; image.alt = project.title; image.loading = 'lazy'; image.decoding = 'async'; frame.append(image);
@@ -105,6 +115,7 @@ function renderContact() {
   if (available) link.href = content.linkedin; else link.removeAttribute('href');
 }
 function projectMedia() {
+  if (selectedProject.screens?.length) return selectedProject.screens;
   if (selectedProject.video) return [{ type:'video', src:selectedProject.video }];
   return (selectedProject.images?.length ? selectedProject.images : [selectedProject.image]).map(src => ({ type:'image', src }));
 }
@@ -120,11 +131,12 @@ function renderGallery() {
   if (!link.hidden) link.href = selectedProject.url; else link.removeAttribute('href');
   const media = projectMedia(), item = media[mediaIndex], container = $('#gallery-media');
   container.querySelectorAll('video').forEach(v => v.pause()); container.replaceChildren();
-  const element = document.createElement(item.type === 'video' ? 'video' : 'img'); element.src = item.src;
+  const element = item.type === 'screen' ? makeAppScreen(item) : document.createElement(item.type === 'video' ? 'video' : 'img');
+  if (item.type !== 'screen') element.src = item.src;
   if (item.type === 'video') { element.controls = true; element.playsInline = true; element.preload = 'metadata'; element.poster = selectedProject.image; }
-  else element.alt = selectedProject.imageDescriptions?.[mediaIndex] || `${selectedProject.title}, image ${mediaIndex + 1}`;
+  else if (item.type !== 'screen') element.alt = selectedProject.imageDescriptions?.[mediaIndex] || `${selectedProject.title}, image ${mediaIndex + 1}`;
   container.append(element);
-  $('#gallery-counter').textContent = item.type === 'video' ? 'Film · Play to explore' : `${mediaIndex + 1} / ${media.length}${selectedProject.imageDescriptions ? ' — ' + selectedProject.imageDescriptions[mediaIndex] : ''}`;
+  $('#gallery-counter').textContent = item.type === 'screen' ? `${mediaIndex + 1} / ${media.length} — ${item.label}` : item.type === 'video' ? 'Film · Play to explore' : `${mediaIndex + 1} / ${media.length}${selectedProject.imageDescriptions ? ' — ' + selectedProject.imageDescriptions[mediaIndex] : ''}`;
   $('#previous').disabled = $('#next').disabled = media.length < 2;
 }
 function moveGallery(delta) { const length = projectMedia().length; mediaIndex = (mediaIndex + delta + length) % length; renderGallery(); }
