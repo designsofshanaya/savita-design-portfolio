@@ -182,105 +182,79 @@ $('#settings').onsubmit = event => {
 };
 
 
-// Continuous two-dimensional eye tracking on the original illustration.
+// The supplied Flow video contains a clockwise sequence of head-turn poses.
 (() => {
   const video = $('#character-video');
-  const ns = 'http://www.w3.org/2000/svg';
-  const node = (tag, attrs) => {
-    const el = document.createElementNS(ns, tag);
-    for (const [key, value] of Object.entries(attrs)) el.setAttribute(key, value);
-    return el;
-  };
-  const artwork = node('svg', {viewBox:'0 0 720 1280', preserveAspectRatio:'xMaxYMid meet', class:'cursor-characters', role:'img', 'aria-label':'A girl and three cats whose heads and eyes follow your cursor in every direction'});
-  const background = node('image', {href:'gaze-poster.jpg', width:720, height:1280});
-  const defs = node('defs', {}); artwork.append(background, defs);
-  const feather = node('filter', {id:'head-edge-softness', x:'-10%', y:'-10%', width:'120%', height:'120%'});
-  feather.append(node('feGaussianBlur', {stdDeviation:3})); defs.append(feather);
-  const heads = [
-    {name:'human',cx:398,cy:688,lookY:520,turn:1.6,shape:'M242 370 Q292 320 382 330 Q500 312 570 395 Q620 475 566 630 Q524 699 407 704 Q297 693 253 600 Q218 496 242 370Z'},
-    {name:'top-cat',cx:357,cy:309,lookY:240,turn:2.2,shape:'M238 120 Q257 111 301 131 Q359 111 420 116 Q460 76 474 98 L483 167 Q513 205 493 273 Q466 316 353 320 Q267 322 246 279 Q227 232 250 173Z'},
-    {name:'black-cat',cx:157,cy:729,lookY:639,turn:2.3,shape:'M28 522 Q55 514 116 574 Q160 562 204 580 Q237 492 255 485 Q278 511 266 604 Q284 657 259 701 Q230 745 156 743 Q75 744 59 694 Q41 645 28 522Z'},
-    {name:'white-cat',cx:560,cy:860,lookY:784,turn:2.1,shape:'M491 659 Q512 645 556 703 Q609 690 648 722 Q684 701 697 715 Q704 750 681 780 Q710 828 674 862 Q629 890 554 869 Q490 857 469 824 Q449 788 482 738Z'}
-  ].map((head, i) => {
-    const mask = node('mask', {id:`head-mask-${i}`, maskUnits:'userSpaceOnUse', x:0,y:0,width:720,height:1280});
-    mask.append(node('path', {d:head.shape,fill:'white',filter:'url(#head-edge-softness)'})); defs.append(mask);
-    const group = node('g', {class:'tracking-head','data-character':head.name});
-    group.append(node('image', {href:'gaze-poster.jpg',width:720,height:1280,mask:`url(#head-mask-${i})`}));
-    artwork.append(group);
-    return {...head,group,x:0,y:0,rotation:0,targetX:0,targetY:0,targetRotation:0};
-  });
-  const specs = [
-    {x:310,y:247,rx:23,ry:17,angle:10,fill:'#e6c77e',iris:'#201711',r:8,travel:7},
-    {x:405,y:239,rx:24,ry:17,angle:-12,fill:'#e6c77e',iris:'#201711',r:8,travel:7},
-    {x:325,y:553,rx:32,ry:22,angle:0,fill:'#fff4df',iris:'#76503a',r:17,travel:9,human:true},
-    {x:465,y:546,rx:32,ry:22,angle:0,fill:'#fff4df',iris:'#76503a',r:17,travel:9,human:true},
-    {x:112,y:672,rx:23,ry:17,angle:9,fill:'#ebc66f',iris:'#15130f',r:8,travel:7},
-    {x:207,y:652,rx:24,ry:17,angle:-13,fill:'#ebc66f',iris:'#15130f',r:8,travel:7},
-    {x:507,y:790,rx:16,ry:16,angle:13,fill:'#e7d28d',iris:'#221b13',r:7,travel:5},
-    {x:591,y:815,rx:22,ry:16,angle:16,fill:'#e7d28d',iris:'#221b13',r:8,travel:6}
+  const neutralTime = 9.1;
+  const poses = [
+    [-Math.PI, .95], [-Math.PI * .75, 1.8], [-Math.PI * .5, 2.55],
+    [-Math.PI * .25, 3.4], [0, 4.65], [Math.PI * .25, 5.55],
+    [Math.PI * .5, 6.2], [Math.PI * .75, 7.1], [Math.PI, 7.6]
   ];
-  const eyes = specs.map((eye, i) => {
-    const shape = {cx:eye.x,cy:eye.y,rx:eye.rx,ry:eye.ry,transform:`rotate(${eye.angle} ${eye.x} ${eye.y})`};
-    const clip = node('clipPath', {id:`cursor-eye-${i}`}); clip.append(node('ellipse', shape)); defs.append(clip);
-    const group = node('g', {'clip-path':`url(#cursor-eye-${i})`});
-    group.append(node('ellipse', {...shape, fill:eye.fill}));
-    const iris = node('g', {class:'tracking-iris'});
-    iris.append(node('ellipse', {cx:eye.x,cy:eye.y,rx:eye.r,ry:eye.human ? eye.r : eye.r*1.45,fill:eye.iris}));
-    if (eye.human) iris.append(node('circle', {cx:eye.x,cy:eye.y-1,r:9,fill:'#211711'}));
-    iris.append(node('circle', {cx:eye.x-3,cy:eye.y-6,r:eye.human ? 4 : 2.8,fill:'#fff9e9'}));
-    const head = heads[i < 2 ? 1 : i < 4 ? 0 : i < 6 ? 2 : 3];
-    group.append(iris); head.group.append(group);
-    return {...eye, iris, xOffset:0, yOffset:0, targetX:0, targetY:0};
-  });
-  video.pause(); video.hidden = true; video.parentElement.append(artwork);
-  const mobile = matchMedia('(max-width:700px)');
-  const align = () => artwork.setAttribute('preserveAspectRatio', mobile.matches ? 'xMidYMax meet' : 'xMaxYMid meet');
-  align(); mobile.addEventListener('change', align);
-  let frame = 0, last = 0;
+  let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+  let frame = 0, last = 0, seekTarget = neutralTime;
+  video.muted = true; video.pause();
+  // A complete local Blob is seekable even on preview servers without byte-range support.
+  const source = video.querySelector('source').src;
+  fetch(source).then(response => {
+    if (!response.ok) throw new Error('Character video could not load.');
+    return response.blob();
+  }).then(blob => {
+    const url = URL.createObjectURL(blob);
+    video.src = url; video.preload = 'auto'; video.load();
+    window.addEventListener('unload', () => URL.revokeObjectURL(url), {once:true});
+  }).catch(() => { video.src = source; video.preload = 'auto'; video.load(); });
+  function poseTime(x, y) {
+    if (Math.hypot(x, y) < .1) return neutralTime;
+    const angle = Math.atan2(y, x);
+    for (let i = 1; i < poses.length; i++) {
+      const [endAngle, endTime] = poses[i];
+      if (angle <= endAngle) {
+        const [startAngle, startTime] = poses[i - 1];
+        return startTime + (endTime-startTime) * (angle-startAngle)/(endAngle-startAngle);
+      }
+    }
+    return poses[poses.length-1][1];
+  }
+  function seekPose() {
+    if (video.readyState < 2 || video.seeking || !Number.isFinite(video.duration)) return;
+    const time = Math.min(seekTarget, video.duration-.05);
+    if (Math.abs(video.currentTime-time) > 1/30) video.currentTime = time;
+  }
   function tick(now) {
     frame = 0;
-    const blend = 1 - Math.exp(-18 * Math.min((now - (last || now - 16))/1000, .05));
-    last = now; let moving = false;
-    for (const head of heads) {
-      const headBlend = blend * .65;
-      head.x += (head.targetX-head.x)*headBlend;
-      head.y += (head.targetY-head.y)*headBlend;
-      head.rotation += (head.targetRotation-head.rotation)*headBlend;
-      head.group.setAttribute('transform', `translate(${head.x.toFixed(3)} ${head.y.toFixed(3)}) rotate(${head.rotation.toFixed(3)} ${head.cx} ${head.cy})`);
-      if (Math.abs(head.targetX-head.x)+Math.abs(head.targetY-head.y)+Math.abs(head.targetRotation-head.rotation) > .02) moving = true;
-    }
-    for (const eye of eyes) {
-      eye.xOffset += (eye.targetX-eye.xOffset)*blend;
-      eye.yOffset += (eye.targetY-eye.yOffset)*blend;
-      eye.iris.setAttribute('transform', `translate(${eye.xOffset.toFixed(3)} ${eye.yOffset.toFixed(3)})`);
-      if (Math.abs(eye.targetX-eye.xOffset)+Math.abs(eye.targetY-eye.yOffset) > .02) moving = true;
-    }
-    if (moving) frame = requestAnimationFrame(tick); else last = 0;
+    const blend = 1 - Math.exp(-16 * Math.min((now-(last || now-16))/1000,.05));
+    last = now;
+    currentX += (targetX-currentX)*blend;
+    currentY += (targetY-currentY)*blend;
+    seekTarget = reducedMotion.matches ? neutralTime : poseTime(currentX,currentY);
+    video.dataset.poseTime = seekTarget.toFixed(3);
+    seekPose();
+    if (Math.abs(currentX-targetX)+Math.abs(currentY-targetY) > .001) frame = requestAnimationFrame(tick);
+    else last = 0;
   }
   const wake = () => { if (!frame) frame = requestAnimationFrame(tick); };
+  video.addEventListener('loadeddata', () => {video.pause(); seekPose();});
+  video.addEventListener('seeked', seekPose);
   window.addEventListener('pointermove', event => {
     if (reducedMotion.matches || event.pointerType === 'touch' || document.hidden) return;
-    const matrix = artwork.getScreenCTM(); if (!matrix) return;
-    const point = new DOMPoint(event.clientX,event.clientY).matrixTransform(matrix.inverse());
-    for (const head of heads) {
-      const horizontal = Math.tanh((point.x-head.cx)/280);
-      const vertical = Math.tanh((point.y-head.lookY)/280);
-      head.targetX = horizontal * 3;
-      head.targetY = vertical * 3;
-      head.targetRotation = horizontal * head.turn;
-    }
-    for (const eye of eyes) {
-      const dx = point.x-eye.x, dy = point.y-eye.y;
-      const distance = Math.hypot(dx,dy);
-      const amount = eye.travel * Math.tanh(distance/180);
-      eye.targetX = distance ? dx/distance*amount : 0;
-      eye.targetY = distance ? dy/distance*amount*.7 : 0;
-    }
+    const rect = video.getBoundingClientRect();
+    const scale = Math.min(rect.width/720, rect.height/1280);
+    const width = 720*scale, height = 1280*scale;
+    const mobile = innerWidth <= 700;
+    const left = rect.left + (mobile ? (rect.width-width)/2 : rect.width-width);
+    const top = rect.top + (mobile ? rect.height-height : (rect.height-height)/2);
+    // Aim around the girl's face in the actual contained image, not the viewport center.
+    const dx = (event.clientX-(left+390*scale))/(270*scale);
+    const dy = (event.clientY-(top+545*scale))/(270*scale);
+    const distance = Math.hypot(dx,dy), amount = Math.min(distance,1.5);
+    targetX = distance ? dx/distance*amount : 0;
+    targetY = distance ? dy/distance*amount : 0;
     wake();
   });
-  const reset = () => { eyes.forEach(eye => {eye.targetX=0; eye.targetY=0;}); heads.forEach(head => {head.targetX=0;head.targetY=0;head.targetRotation=0;}); wake(); };
-  document.documentElement.addEventListener('pointerleave', reset);
-  reducedMotion.addEventListener('change', reset);
+  const reset = () => {targetX=0;targetY=0;wake();};
+  document.documentElement.addEventListener('pointerleave',reset);
+  reducedMotion.addEventListener('change',reset);
 })();
 
 const line = $('#typewriter'), lineText = line?.textContent;
