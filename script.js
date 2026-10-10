@@ -45,7 +45,10 @@ function renderProjects(category = 'All') {
   const container = $('#projects'); container.replaceChildren();
   const projects = content.projects;
   projects.forEach(project => {
-    const button = document.createElement('button'); button.className = 'project'; button.dataset.category = project.category;
+    const isApp = project.category === 'Interaction';
+    let screenIndex = 0;
+    const showGallery = () => { selectedProject = project; mediaIndex = screenIndex; renderGallery(); openDialog(gallery); };
+    const button = document.createElement(isApp ? 'article' : 'button'); button.className = 'project'; button.dataset.category = project.category;
     button.setAttribute('aria-label', `View ${project.title}`);
     const frame = document.createElement('div'); frame.className = 'project-image';
     if (project.category === 'Graphics') {
@@ -59,10 +62,23 @@ function renderProjects(category = 'All') {
       });
     } else if (project.category === 'Interaction') {
       frame.classList.add('phone-set');
-      project.screens.slice(0, 2).forEach(screen => {
-        const phone = document.createElement('div'); phone.className = 'phone-preview';
-        phone.append(makeAppScreen(screen)); frame.append(phone);
-      });
+      const phone = document.createElement('button'); phone.type = 'button'; phone.className = 'phone-preview';
+      phone.onclick = showGallery;
+      const steps = document.createElement('div'); steps.className = 'phone-steps';
+      const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = '←'; previous.setAttribute('aria-label', 'Previous app screen');
+      const next = document.createElement('button'); next.type = 'button'; next.textContent = '→'; next.setAttribute('aria-label', 'Next app screen');
+      const status = document.createElement('span'); status.className = 'phone-step-label'; status.setAttribute('aria-live', 'polite');
+      const explanation = document.createElement('p'); explanation.className = 'phone-explanation';
+      const updateScreen = () => {
+        const screen = project.screens[screenIndex];
+        phone.replaceChildren(makeAppScreen(screen)); phone.setAttribute('aria-label', `Enlarge ${screen.label} app screen`);
+        status.textContent = `${screenIndex + 1} / ${project.screens.length} · ${screen.label}`;
+        explanation.textContent = screen.explanation;
+        previous.disabled = screenIndex === 0; next.disabled = screenIndex === project.screens.length - 1;
+      };
+      previous.onclick = () => { if (screenIndex > 0) { screenIndex--; updateScreen(); } };
+      next.onclick = () => { if (screenIndex < project.screens.length - 1) { screenIndex++; updateScreen(); } };
+      steps.append(previous, status, next); frame.append(phone, steps, explanation); updateScreen();
     } else {
       const image = document.createElement('img'); image.src = project.image; image.alt = project.title; image.loading = 'lazy'; image.decoding = 'async'; frame.append(image);
     }
@@ -82,9 +98,10 @@ function renderProjects(category = 'All') {
     const title = document.createElement('h3'); title.textContent = project.title;
     const categoryLabel = document.createElement('p'); categoryLabel.textContent = project.category;
     const arrow = document.createElement('span'); arrow.className = 'project-arrow'; arrow.textContent = '↗'; arrow.setAttribute('aria-hidden','true');
-    const action = document.createElement('span'); action.className = 'project-action'; action.textContent = project.category === 'Graphics' ? 'View all three posters ↗' : project.category === 'Interaction' ? 'View app screenshots ↗' : 'Watch the film ↗';
+    const action = document.createElement(isApp ? 'button' : 'span'); action.className = 'project-action';
+    if (isApp) { action.type = 'button'; action.onclick = showGallery; } action.textContent = project.category === 'Graphics' ? 'View all three posters ↗' : project.category === 'Interaction' ? 'View app screenshots ↗' : 'Watch the film ↗';
     text.append(title, categoryLabel, action); caption.append(text, arrow); button.append(frame, caption);
-    button.onclick = () => { selectedProject = project; mediaIndex = 0; renderGallery(); openDialog(gallery); };
+    if (!isApp) button.onclick = showGallery;
     const note = document.createElement('p'); note.className = 'project-context';
     note.textContent = project.summary || project.description;
     text.append(note);
